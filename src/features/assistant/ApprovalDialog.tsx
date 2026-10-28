@@ -1,4 +1,4 @@
-import { useId, useRef, useState } from 'react'
+import { useId, useRef, useState, type RefObject } from 'react'
 import { useTranslation } from 'react-i18next'
 import { isApiError } from '@/api/errors'
 import type { AiSuggestion } from '@/api/schemas'
@@ -6,7 +6,7 @@ import { useCurrentUser } from '@/api/useSession'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { Dialog } from '@/components/ui/Dialog'
-import { toast } from '@/components/ui/Toast'
+import { toast } from '@/components/ui/toast-store'
 import { useLocale } from '@/i18n/useLocale'
 import { formatPercent } from '@/lib/format'
 import { ChangeDiff } from './ChangeValue'
@@ -19,6 +19,8 @@ interface ApprovalDialogProps {
   currentVersion: number
   open: boolean
   onClose: () => void
+  /** Where focus goes after a successful apply (the suggestion card — and its Review button — disappear). */
+  afterApplyFocus?: RefObject<HTMLElement | null>
 }
 
 /**
@@ -26,7 +28,14 @@ interface ApprovalDialogProps {
  * it restates the exact change, defaults focus to Cancel, requires an explicit
  * acknowledgement for low-confidence suggestions, and cannot be dismissed mid-write.
  */
-export function ApprovalDialog({ suggestion, recordLabel, currentVersion, open, onClose }: ApprovalDialogProps) {
+export function ApprovalDialog({
+  suggestion,
+  recordLabel,
+  currentVersion,
+  open,
+  onClose,
+  afterApplyFocus,
+}: ApprovalDialogProps) {
   const { t } = useTranslation()
   const { locale } = useLocale()
   const me = useCurrentUser()
@@ -34,29 +43,27 @@ export function ApprovalDialog({ suggestion, recordLabel, currentVersion, open, 
   const descId = useId()
   const ackId = useId()
   const cancelRef = useRef<HTMLButtonElement>(null)
+  const returnFocus = useRef<HTMLElement | null>(null)
   const [acknowledged, setAcknowledged] = useState(false)
-  const apply = useApplySuggestion()
+  const apply = useApplySuggestion({
+    onApplied: () => {
+      toast(t('approval.applied'))
+      returnFocus.current = afterApplyFocus?.current ?? null
+      close()
+    },
+  })
 
   const needsAck = requiresAcknowledgement(suggestion)
   const band = confidenceBand(suggestion.confidence)
   const canConfirm = !apply.isPending && (!needsAck || acknowledged)
 
-  const close = () => {
+  function close() {
     apply.reset()
     setAcknowledged(false)
     onClose()
   }
 
-  const confirm = () =>
-    apply.mutate(
-      { suggestion, version: currentVersion },
-      {
-        onSuccess: () => {
-          toast(t('approval.applied'))
-          close()
-        },
-      },
-    )
+  const confirm = () => apply.mutate({ suggestion, version: currentVersion })
 
   const error = apply.error
   const errorMessage =
@@ -74,6 +81,7 @@ export function ApprovalDialog({ suggestion, recordLabel, currentVersion, open, 
       describedBy={descId}
       variant="center"
       initialFocus={cancelRef}
+      returnFocus={returnFocus}
       dismissible={!apply.isPending}
     >
       <div className="flex flex-col gap-4 p-5">
@@ -113,7 +121,7 @@ export function ApprovalDialog({ suggestion, recordLabel, currentVersion, open, 
               type="checkbox"
               checked={acknowledged}
               onChange={(e) => setAcknowledged(e.target.checked)}
-              className="mt-0.5 size-4 shrink-0 accent-(--color-warning)"
+              className="mt-0.5 size-4 shrink-0 accent-warning"
             />
             <label htmlFor={ackId}>{t('approval.acknowledge')}</label>
           </div>

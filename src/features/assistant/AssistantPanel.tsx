@@ -1,4 +1,4 @@
-import { useId } from 'react'
+import { useId, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { Activity, AiSuggestion } from '@/api/schemas'
 import { SparkleIcon } from '@/components/ui/icons'
@@ -19,12 +19,19 @@ interface AssistantPanelProps {
 export function AssistantPanel({ targetType, targetId, ...cardProps }: AssistantPanelProps) {
   const { t } = useTranslation()
   const headingId = useId()
+  // Focus target after an approval: the applied suggestion's card (and its button) is removed.
+  const headingRef = useRef<HTMLHeadingElement>(null)
   const suggestions = useSuggestions(targetType, targetId)
 
   return (
     <section aria-labelledby={headingId} className="flex flex-col gap-3" data-testid="assistant-panel">
       <div className="flex flex-col gap-1">
-        <h2 id={headingId} className="flex items-center gap-1.5 text-base font-semibold text-ai">
+        <h2
+          id={headingId}
+          ref={headingRef}
+          tabIndex={-1}
+          className="flex items-center gap-1.5 text-base font-semibold text-ai focus:outline-none"
+        >
           <SparkleIcon />
           {t('assistant.title')}
         </h2>
@@ -45,7 +52,9 @@ export function AssistantPanel({ targetType, targetId, ...cardProps }: Assistant
       ) : suggestions.data.length === 0 ? (
         <p className="rounded-lg border border-dashed border-border p-4 text-sm text-fg-muted">{t('assistant.none')}</p>
       ) : (
-        suggestions.data.map((s) => <SuggestionCard key={s.id} suggestion={s} {...cardProps} />)
+        suggestions.data.map((s) => (
+          <SuggestionCard key={s.id} suggestion={s} afterApplyFocus={headingRef} {...cardProps} />
+        ))
       )}
     </section>
   )

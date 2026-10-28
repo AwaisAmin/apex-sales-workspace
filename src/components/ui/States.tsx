@@ -17,7 +17,15 @@ export function EmptyState({ title, body, action }: { title: string; body?: stri
  * Maps any error to a localized, actionable message. Retry is offered only when
  * retrying can help (transient errors) — not for 403/422, where it would just fail again.
  */
-export function ErrorState({ error, onRetry, retried = false }: { error: unknown; onRetry?: () => void; retried?: boolean }) {
+export function ErrorState({
+  error,
+  onRetry,
+  retried = false,
+}: {
+  error: unknown
+  onRetry?: () => void
+  retried?: boolean
+}) {
   const { t } = useTranslation()
   const code = isApiError(error) ? error.code : 'SERVER'
   const canRetry = onRetry && (!isApiError(error) || error.isTransient || code === 'INVALID_RESPONSE')

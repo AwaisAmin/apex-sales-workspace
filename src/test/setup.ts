@@ -3,6 +3,7 @@ import { cleanup } from '@testing-library/react'
 import { afterAll, afterEach, beforeAll, beforeEach } from 'vitest'
 import i18n from '@/i18n/config'
 import { session } from '@/api/session'
+import { resetToastsForTests } from '@/components/ui/toast-store'
 import { DEFAULT_CHAOS, initChaos, setChaos } from '@/mocks/chaos'
 import { server, resetMockDb } from './server'
 
@@ -34,6 +35,7 @@ beforeEach(async () => {
 
 afterEach(() => {
   cleanup()
+  resetToastsForTests()
   localStorage.clear()
 })
 

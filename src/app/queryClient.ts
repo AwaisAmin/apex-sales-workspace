@@ -29,8 +29,7 @@ export function createQueryClient() {
     mutationCache: new MutationCache({ onError: on401 }),
     defaultOptions: {
       queries: {
-        retry: (failureCount, error) =>
-          isApiError(error) && error.isTransient && failureCount < MAX_READ_RETRIES,
+        retry: (failureCount, error) => isApiError(error) && error.isTransient && failureCount < MAX_READ_RETRIES,
         retryDelay: backoffDelay,
         // Lists are re-fetched on focus anyway; 30s avoids refetch on every tab switch inside the app.
         staleTime: 30_000,

@@ -35,12 +35,7 @@ export function Pagination({ page, pageSize, total, onPageChange, onPageSizeChan
         <label htmlFor={sizeId} className="text-fg-muted">
           {t('pagination.perPage')}
         </label>
-        <Select
-          id={sizeId}
-          size="sm"
-          value={pageSize}
-          onChange={(e) => onPageSizeChange(Number(e.target.value))}
-        >
+        <Select id={sizeId} size="sm" value={pageSize} onChange={(e) => onPageSizeChange(Number(e.target.value))}>
           {PAGE_SIZES.map((s) => (
             <option key={s} value={s}>
               {n(s)}
@@ -49,11 +44,21 @@ export function Pagination({ page, pageSize, total, onPageChange, onPageSizeChan
         </Select>
         <span className="tabular">{t('pagination.pageOf', { page: n(page), pages: n(pages) })}</span>
         <div className="flex gap-1">
-          <Button size="sm" aria-label={t('pagination.previous')} disabled={page <= 1} onClick={() => onPageChange(page - 1)}>
+          <Button
+            size="sm"
+            aria-label={t('pagination.previous')}
+            disabled={page <= 1}
+            onClick={() => onPageChange(page - 1)}
+          >
             {/* "Previous" points to the inline start: left in LTR, right in RTL */}
             <Chevron direction="start" />
           </Button>
-          <Button size="sm" aria-label={t('pagination.next')} disabled={page >= pages} onClick={() => onPageChange(page + 1)}>
+          <Button
+            size="sm"
+            aria-label={t('pagination.next')}
+            disabled={page >= pages}
+            onClick={() => onPageChange(page + 1)}
+          >
             <Chevron direction="end" />
           </Button>
         </div>

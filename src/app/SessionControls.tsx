@@ -52,7 +52,10 @@ export function SessionExpiredBanner() {
   const client = useQueryClient()
   if (!expired) return null
   return (
-    <div role="alert" className="flex flex-wrap items-center justify-center gap-3 bg-danger-bg px-4 py-2 text-sm text-danger">
+    <div
+      role="alert"
+      className="flex flex-wrap items-center justify-center gap-3 bg-danger-bg px-4 py-2 text-sm text-danger"
+    >
       <span>{t('session.expired')}</span>
       <Button
         size="sm"

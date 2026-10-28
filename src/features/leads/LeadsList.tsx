@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import type { Lead, LeadQuery, LeadSortField } from '@/api/schemas'
-import { RecordLink, rowClickHandler } from '@/components/ui/RecordLink'
+import { RecordLink } from '@/components/ui/RecordLink'
+import { rowClickHandler } from '@/components/ui/rowClick'
 import { SortableHeader } from '@/components/ui/SortableHeader'
 import { Skeleton } from '@/components/ui/Skeleton'
 import { useLocale } from '@/i18n/useLocale'

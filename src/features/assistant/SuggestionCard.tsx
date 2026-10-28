@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, type RefObject } from 'react'
 import { useTranslation } from 'react-i18next'
 import { isApiError } from '@/api/errors'
 import type { Activity, AiSuggestion } from '@/api/schemas'
@@ -6,9 +6,9 @@ import { useCurrentUser } from '@/api/useSession'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { SparkleIcon } from '@/components/ui/icons'
-import { toast } from '@/components/ui/Toast'
+import { toast } from '@/components/ui/toast-store'
 import { useLocale } from '@/i18n/useLocale'
-import { formatDate, formatPercent, formatRelative } from '@/lib/format'
+import { formatDate, formatNumber, formatPercent, formatRelative } from '@/lib/format'
 import { ApprovalDialog } from './ApprovalDialog'
 import { ChangeDiff } from './ChangeValue'
 import { useDismissSuggestion } from './hooks'
@@ -20,11 +20,19 @@ interface SuggestionCardProps {
   currentVersion: number | undefined
   activities: Activity[]
   onShowEvidence: (activityId: string) => void
+  afterApplyFocus?: RefObject<HTMLElement | null>
 }
 
 const BAND_TONE = { high: 'success', medium: 'warning', low: 'danger' } as const
 
-export function SuggestionCard({ suggestion: s, recordLabel, currentVersion, activities, onShowEvidence }: SuggestionCardProps) {
+export function SuggestionCard({
+  suggestion: s,
+  recordLabel,
+  currentVersion,
+  activities,
+  onShowEvidence,
+  afterApplyFocus,
+}: SuggestionCardProps) {
   const { t } = useTranslation()
   const { locale } = useLocale()
   const me = useCurrentUser()
@@ -68,7 +76,7 @@ export function SuggestionCard({ suggestion: s, recordLabel, currentVersion, act
 
       <section className="flex flex-col gap-1.5">
         <h4 className="text-xs font-semibold tracking-wide text-fg-muted uppercase">
-          {t('assistant.evidence')} · {t('assistant.evidenceCount', { n: s.evidence.length })}
+          {t('assistant.evidence')} · {t('assistant.evidenceCount', { n: formatNumber(s.evidence.length, locale) })}
         </h4>
         <ul className="flex flex-col gap-1.5">
           {s.evidence.map((e) => {
@@ -118,7 +126,8 @@ export function SuggestionCard({ suggestion: s, recordLabel, currentVersion, act
 
       <footer className="flex flex-wrap items-center justify-between gap-2">
         <span className="text-xs text-fg-muted">
-          {t('assistant.generatedBy', { model: s.model, time: formatRelative(s.generatedAt, locale) })}
+          {/* Model id is a Latin identifier: isolate it so it neither reorders nor flips inside Arabic text. */}
+          {t('assistant.generatedBy')} <bdi dir="ltr">{s.model}</bdi> · {formatRelative(s.generatedAt, locale)}
         </span>
         <div className="flex gap-2">
           {canDismiss && (
@@ -150,6 +159,7 @@ export function SuggestionCard({ suggestion: s, recordLabel, currentVersion, act
           suggestion={s}
           recordLabel={recordLabel}
           currentVersion={currentVersion}
+          afterApplyFocus={afterApplyFocus}
         />
       )}
     </article>

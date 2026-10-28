@@ -39,7 +39,7 @@
 
 @layer base {
   body {
-    @apply bg-bg text-fg font-sans antialiased;
+    @apply bg-bg font-sans text-fg antialiased;
   }
 
   /* Arabic script needs its own typeface and slightly taller line-height. */

@@ -7,11 +7,17 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc -b",
+    "check": "npm run typecheck && npm run lint && npm run format:check && npm run audit:contrast && npm test",
     "preview": "vite preview",
     "audit:contrast": "node scripts/contrast.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test --grep-invert @screenshots",
+    "e2e:screenshots": "playwright test --grep @screenshots"
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.3.0",
@@ -28,6 +34,8 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "^1.64.1",
     "@tanstack/react-query-devtools": "^5.105.0",
     "@testing-library/dom": "^10.4.2",
     "@testing-library/jest-dom": "^7.0.1",
@@ -42,6 +50,8 @@
     "jsdom": "^29.1.1",
     "msw": "^3.0.3",
     "oxlint": "^1.89.0",
+    "prettier": "^3.9.10",
+    "prettier-plugin-tailwindcss": "^0.8.1",
     "typescript": "~7.0.2",
     "vite": "^8.3.5",
     "vitest": "^5.0.5"

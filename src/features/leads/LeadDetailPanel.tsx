@@ -5,7 +5,8 @@ import { qk } from '@/api/queryKeys'
 import { useUsers } from '@/api/useSession'
 import { ExternalEditButton } from '@/app/DemoControls'
 import { DetailDrawer, FieldList } from '@/components/DetailDrawer'
-import { ActivityTimeline, focusActivity } from '@/features/assistant/ActivityTimeline'
+import { ActivityTimeline } from '@/features/assistant/ActivityTimeline'
+import { focusActivity } from '@/features/assistant/focusActivity'
 import { AssistantPanel } from '@/features/assistant/AssistantPanel'
 import { AuditHistory } from '@/features/assistant/AuditHistory'
 import { useLocale } from '@/i18n/useLocale'
@@ -55,7 +56,10 @@ export function LeadDetailPanel({ leadId, onClose }: { leadId: string | null; on
               { label: t('leads.columns.city'), value: t(`city.${l.city}`) },
               { label: t('detail.industry'), value: t(`industry.${l.industry}`) },
               { label: t('detail.source'), value: t(`source.${l.source}`) },
-              { label: t('leads.columns.score'), value: <span className="tabular">{formatNumber(l.score, locale)}</span> },
+              {
+                label: t('leads.columns.score'),
+                value: <span className="tabular">{formatNumber(l.score, locale)}</span>,
+              },
               {
                 label: t('leads.columns.estimatedValue'),
                 value: <span className="tabular">{formatCurrency(l.estimatedValue, locale)}</span>,

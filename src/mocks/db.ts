@@ -121,9 +121,7 @@ export function createDb(seed = createSeed()) {
     getLead: (id: string) => findLead(id),
 
     activitiesFor: (leadId: string): Activity[] =>
-      state.activities
-        .filter((a) => a.leadId === leadId)
-        .sort((a, b) => b.occurredAt.localeCompare(a.occurredAt)),
+      state.activities.filter((a) => a.leadId === leadId).sort((a, b) => b.occurredAt.localeCompare(a.occurredAt)),
 
     updateLeadStatus(id: string, input: UpdateLeadStatusInput, actorId: string): Lead {
       const lead = findLead(id)

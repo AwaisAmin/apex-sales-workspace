@@ -18,7 +18,17 @@ interface DetailDrawerProps {
 }
 
 /** Side panel for a single record, with shared loading / error handling. Full-screen on mobile. */
-export function DetailDrawer({ open, onClose, title, fallbackTitle, subtitle, status, error, onRetry, children }: DetailDrawerProps) {
+export function DetailDrawer({
+  open,
+  onClose,
+  title,
+  fallbackTitle,
+  subtitle,
+  status,
+  error,
+  onRetry,
+  children,
+}: DetailDrawerProps) {
   const { t } = useTranslation()
   const titleId = useId()
 

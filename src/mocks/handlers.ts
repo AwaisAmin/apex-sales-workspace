@@ -104,9 +104,15 @@ const id = (params: Ctx['params']) => String(params.id)
 
 export function createHandlers(db: Db) {
   return [
-    http.get(`${API}/me`, endpoint(db, 'read', ({ user }) => HttpResponse.json(user))),
+    http.get(
+      `${API}/me`,
+      endpoint(db, 'read', ({ user }) => HttpResponse.json(user)),
+    ),
 
-    http.get(`${API}/users`, endpoint(db, 'read', () => HttpResponse.json(db.users()))),
+    http.get(
+      `${API}/users`,
+      endpoint(db, 'read', () => HttpResponse.json(db.users())),
+    ),
 
     http.get(
       `${API}/leads`,
@@ -118,7 +124,10 @@ export function createHandlers(db: Db) {
       }),
     ),
 
-    http.get(`${API}/leads/:id`, endpoint(db, 'read', ({ params }) => HttpResponse.json(db.getLead(id(params))))),
+    http.get(
+      `${API}/leads/:id`,
+      endpoint(db, 'read', ({ params }) => HttpResponse.json(db.getLead(id(params)))),
+    ),
 
     http.get(
       `${API}/leads/:id/activities`,
@@ -179,7 +188,10 @@ export function createHandlers(db: Db) {
       }),
     ),
 
-    http.get(`${API}/audit`, endpoint(db, 'read', () => HttpResponse.json(db.audit()))),
+    http.get(
+      `${API}/audit`,
+      endpoint(db, 'read', () => HttpResponse.json(db.audit())),
+    ),
 
     // Demo-only: not part of the product API. Bypasses chaos/auth so it works while failures are injected.
     http.post(`${API}/__demo/external-edit/:type/:id`, ({ params }) => {

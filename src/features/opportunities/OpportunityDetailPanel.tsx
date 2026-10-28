@@ -6,7 +6,8 @@ import { useUsers } from '@/api/useSession'
 import { ExternalEditButton } from '@/app/DemoControls'
 import { DetailDrawer, FieldList } from '@/components/DetailDrawer'
 import { Badge } from '@/components/ui/Badge'
-import { ActivityTimeline, focusActivity } from '@/features/assistant/ActivityTimeline'
+import { ActivityTimeline } from '@/features/assistant/ActivityTimeline'
+import { focusActivity } from '@/features/assistant/focusActivity'
 import { AssistantPanel } from '@/features/assistant/AssistantPanel'
 import { AuditHistory } from '@/features/assistant/AuditHistory'
 import { useLocale } from '@/i18n/useLocale'
@@ -57,7 +58,10 @@ export function OpportunityDetailPanel({ oppId, onClose }: { oppId: string | nul
           <FieldList
             fields={[
               { label: t('detail.relatedLead'), value: lead.data?.company[locale] ?? '…' },
-              { label: t('opportunities.columns.amount'), value: <span className="tabular">{formatCurrency(o.amount, locale)}</span> },
+              {
+                label: t('opportunities.columns.amount'),
+                value: <span className="tabular">{formatCurrency(o.amount, locale)}</span>,
+              },
               {
                 label: t('opportunities.columns.probability'),
                 value: <span className="tabular">{formatPercent(o.probability, locale)}</span>,
@@ -77,7 +81,9 @@ export function OpportunityDetailPanel({ oppId, onClose }: { oppId: string | nul
               },
               {
                 label: t('opportunities.columns.nextStep'),
-                value: o.nextStep?.[locale] ?? <span className="text-fg-muted italic">{t('opportunities.noNextStep')}</span>,
+                value: o.nextStep?.[locale] ?? (
+                  <span className="text-fg-muted italic">{t('opportunities.noNextStep')}</span>
+                ),
               },
               { label: t('detail.owner'), value: owner?.name[locale] ?? '—' },
               { label: t('detail.version'), value: <span className="tabular">{formatNumber(o.version, locale)}</span> },

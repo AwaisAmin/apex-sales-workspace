@@ -2,7 +2,7 @@ import { useId, useSyncExternalStore } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/Button'
 import { Select } from '@/components/ui/Select'
-import { toast } from '@/components/ui/Toast'
+import { toast } from '@/components/ui/toast-store'
 import { getChaos, setChaos, subscribeChaos, type ForcedFailure, type LatencyMode } from '@/mocks/chaos'
 import { RoleSwitcher } from './SessionControls'
 
@@ -39,7 +39,10 @@ export function DemoControls() {
   )
 
   return (
-    <details className="rounded-lg border border-dashed border-border bg-surface p-3 text-sm" data-testid="demo-controls">
+    <details
+      className="rounded-lg border border-dashed border-border bg-surface p-3 text-sm"
+      data-testid="demo-controls"
+    >
       <summary className="font-medium">{t('demo.title')}</summary>
       <p className="mt-2 text-xs text-fg-muted">{t('demo.hint')}</p>
       {/* On smaller screens the role switcher lives here instead of the header. */}

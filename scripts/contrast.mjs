@@ -8,7 +8,9 @@ const css = readFileSync(new URL('../src/styles/tokens.css', import.meta.url), '
 
 const light = {}
 const dark = {}
-for (const [, name, l, d] of css.matchAll(/--color-([\w-]+):\s*light-dark\(\s*(#[0-9a-f]{6})\s*,\s*(#[0-9a-f]{6})\s*\)/gi)) {
+for (const [, name, l, d] of css.matchAll(
+  /--color-([\w-]+):\s*light-dark\(\s*(#[0-9a-f]{6})\s*,\s*(#[0-9a-f]{6})\s*\)/gi,
+)) {
   light[name] = l
   dark[name] = d
 }
@@ -57,7 +59,10 @@ if (Object.keys(light).length === 0) {
 }
 
 let failed = 0
-for (const [theme, t] of [['light', light], ['dark', dark]]) {
+for (const [theme, t] of [
+  ['light', light],
+  ['dark', dark],
+]) {
   console.log(`\n${theme.toUpperCase()}`)
   console.log('ratio   min  result  pair → usage')
   for (const [fg, bg, min, usage] of PAIRS) {
@@ -69,7 +74,9 @@ for (const [theme, t] of [['light', light], ['dark', dark]]) {
     const r = ratio(t[fg], t[bg])
     const ok = r >= min
     if (!ok) failed++
-    console.log(`${r.toFixed(2).padStart(5)}:1 ${String(min).padEnd(4)} ${ok ? 'PASS' : 'FAIL'}    ${fg} on ${bg} → ${usage}`)
+    console.log(
+      `${r.toFixed(2).padStart(5)}:1 ${String(min).padEnd(4)} ${ok ? 'PASS' : 'FAIL'}    ${fg} on ${bg} → ${usage}`,
+    )
   }
 }
 console.log(failed ? `\n${failed} pair(s) below threshold` : `\nAll ${PAIRS.length * 2} checks meet WCAG 2.1 AA`)

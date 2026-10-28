@@ -7,7 +7,7 @@ import { useCurrentUser } from '@/api/useSession'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { Chevron } from '@/components/ui/icons'
-import { toast } from '@/components/ui/Toast'
+import { toast } from '@/components/ui/toast-store'
 import { cn } from '@/lib/cn'
 import { useUpdateLeadStatus } from './useUpdateLeadStatus'
 
@@ -17,7 +17,14 @@ const PIPELINE: LeadStatus[] = ['new', 'contacted', 'qualified']
 function CheckIcon({ className }: { className?: string }) {
   return (
     <svg aria-hidden="true" viewBox="0 0 20 20" className={cn('size-3.5', className)}>
-      <path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+      <path
+        d="M4.5 10.5l3.5 3.5 7.5-8"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   )
 }
@@ -88,8 +95,7 @@ export function LeadStatusControl({ lead }: { lead: Lead }) {
       { lead, status: next },
       {
         onSuccess: () => toast(t('statusControl.saved', { status: t(`leadStatus.${next}`) })),
-        onError: (e) =>
-          setFailure({ message: t(`errors.${isApiError(e) ? e.code : 'SERVER'}`), revertedTo: previous }),
+        onError: (e) => setFailure({ message: t(`errors.${isApiError(e) ? e.code : 'SERVER'}`), revertedTo: previous }),
         onSettled: () => setTarget(null),
       },
     )

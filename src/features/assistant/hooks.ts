@@ -32,8 +32,15 @@ function applyChange(s: AiSuggestion, version: number): Promise<Lead | Opportuni
  * Pessimistic on purpose: an AI-originated change is shown as applied only once
  * the server has accepted it (version check, role check, validation), never
  * optimistically. The server rejects a stale suggestion with 409.
+ *
+ * On success the server-confirmed record is written to the cache immediately and the
+ * consumed suggestion removed, so the drawer never shows a half-updated state.
+ * `onApplied` runs here (hook level) rather than as a `mutate(…, { onSuccess })` callback:
+ * removing the suggestion unmounts the card that started the mutation, and TanStack Query
+ * skips per-call callbacks for unmounted observers — which made the confirmation toast
+ * appear only sometimes.
  */
-export function useApplySuggestion() {
+export function useApplySuggestion({ onApplied }: { onApplied?: () => void } = {}) {
   const client = useQueryClient()
   const refresh = (s: AiSuggestion) =>
     Promise.all([
@@ -45,9 +52,17 @@ export function useApplySuggestion() {
   return useMutation({
     mutationFn: ({ suggestion, version }: { suggestion: AiSuggestion; version: number }) =>
       applyChange(suggestion, version),
-    // Returned (awaited) on purpose: the approval dialog closes only once the drawer already shows the
-    // server-confirmed record, so the user never sees a half-updated state for an AI-originated change.
-    onSuccess: (_data, { suggestion }) => refresh(suggestion),
+    onSuccess: (confirmed, { suggestion: s }) => {
+      onApplied?.()
+      client.setQueryData(
+        s.targetType === 'lead' ? qk.leads.detail(s.targetId) : qk.opportunities.detail(s.targetId),
+        confirmed,
+      )
+      client.setQueryData<AiSuggestion[]>(qk.suggestions.for(s.targetType, s.targetId), (old) =>
+        old?.filter((x) => x.id !== s.id),
+      )
+      void refresh(s) // lists and audit catch up in the background
+    },
     onError: (error, { suggestion }) => {
       // Stale or vanished suggestion: refetch so the UI shows the current record and drops the suggestion.
       if (isApiError(error) && (error.code === 'CONFLICT' || error.code === 'NOT_FOUND')) void refresh(suggestion)

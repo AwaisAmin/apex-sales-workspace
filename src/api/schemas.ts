@@ -76,13 +76,7 @@ export type Lead = z.infer<typeof Lead>
 
 // ---------- Opportunities ----------
 
-export const OpportunityStage = z.enum([
-  'discovery',
-  'proposal',
-  'negotiation',
-  'closed_won',
-  'closed_lost',
-])
+export const OpportunityStage = z.enum(['discovery', 'proposal', 'negotiation', 'closed_won', 'closed_lost'])
 export type OpportunityStage = z.infer<typeof OpportunityStage>
 
 export const Opportunity = z.object({

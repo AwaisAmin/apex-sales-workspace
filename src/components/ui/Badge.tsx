@@ -13,7 +13,15 @@ const TONES = {
 export type BadgeTone = keyof typeof TONES
 
 /** Status is always conveyed by text, never by color alone. */
-export function Badge({ tone = 'neutral', children, className }: { tone?: BadgeTone; children: ReactNode; className?: string }) {
+export function Badge({
+  tone = 'neutral',
+  children,
+  className,
+}: {
+  tone?: BadgeTone
+  children: ReactNode
+  className?: string
+}) {
   return (
     <span
       className={cn(

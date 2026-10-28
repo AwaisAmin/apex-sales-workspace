@@ -24,7 +24,9 @@ describe('leads list states', () => {
     await screen.findByText('120 leads')
     await user.click(screen.getByRole('button', { name: 'Score' }))
 
-    await waitFor(() => expect(screen.getByRole('columnheader', { name: 'Score' })).toHaveAttribute('aria-sort', 'descending'))
+    await waitFor(() =>
+      expect(screen.getByRole('columnheader', { name: 'Score' })).toHaveAttribute('aria-sort', 'descending'),
+    )
     await waitFor(() => {
       const scores = rows().map((r) => Number(r.children[3]!.textContent))
       expect(scores).toEqual([...scores].sort((a, b) => b - a))

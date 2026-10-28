@@ -16,7 +16,8 @@ describe('mock backend rules', () => {
 
   it('rejects a disallowed status transition with 422 and field errors', () => {
     const db = fresh()
-    const lead = db.listLeads({ page: 1, pageSize: 100, sort: 'createdAt', dir: 'desc', status: ['qualified'] }, 'en').items[0]!
+    const lead = db.listLeads({ page: 1, pageSize: 100, sort: 'createdAt', dir: 'desc', status: ['qualified'] }, 'en')
+      .items[0]!
     const attempt = () => db.updateLeadStatus(lead.id, { status: 'new', version: lead.version }, 'u-rep')
     expect(attempt).toThrow(DbError)
     try {
@@ -56,7 +57,11 @@ describe('mock backend rules', () => {
     db.simulateExternalEdit('lead', lead.id)
     const current = db.getLead(lead.id)
     expect(() =>
-      db.updateLeadStatus(lead.id, { status: 'qualified', version: current.version, suggestionId: suggestion.id }, 'u-rep'),
+      db.updateLeadStatus(
+        lead.id,
+        { status: 'qualified', version: current.version, suggestionId: suggestion.id },
+        'u-rep',
+      ),
     ).toThrow(expect.objectContaining({ status: 409 }))
     expect(current.status).toBe('contacted') // nothing applied
   })

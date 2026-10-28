@@ -1,4 +1,4 @@
-import { screen, waitFor, within } from '@testing-library/react'
+import { act, screen, waitFor, within } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 import { session } from '@/api/session'
 import { LeadDetailPanel } from '@/features/leads/LeadDetailPanel'
@@ -50,6 +50,30 @@ describe('AI suggestion → human approval gate', () => {
     expect(writes).toEqual(['PATCH /api/leads/lead-001/status'])
     expect(db.getLead('lead-001').status).toBe('qualified')
     expect(db.audit()[0]).toMatchObject({ action: 'suggestion_applied', actorId: 'u-rep' })
+  })
+
+  it('can be reopened immediately after Escape (no stuck dialog when close and reopen are batched)', async () => {
+    const { user } = open('lead-001')
+    const review = await screen.findByRole('button', { name: /review & apply/i })
+    await user.click(review)
+    const approval = await screen.findByRole('dialog', { name: /apply ai suggestion/i })
+
+    // Browser closes the dialog (Escape) and the user re-activates Review in the same tick.
+    act(() => {
+      ;(approval as HTMLDialogElement).close()
+      review.click()
+    })
+
+    expect(await screen.findByRole('dialog', { name: /apply ai suggestion/i })).toHaveAttribute('open')
+  })
+
+  it('announces the outcome from inside the open drawer (not from the inert page behind it)', async () => {
+    const { user } = open('lead-001')
+    await user.click(await screen.findByRole('button', { name: /review & apply/i }))
+    await user.click(await screen.findByRole('button', { name: /approve & apply/i }))
+    const message = await screen.findByText(/change applied and logged/i)
+    expect(message.closest('dialog[open]')).not.toBeNull()
+    expect(message.closest('[aria-live="polite"]')).not.toBeNull()
   })
 
   it('requires an explicit acknowledgement before applying a low-confidence suggestion', async () => {

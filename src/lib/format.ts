@@ -53,10 +53,9 @@ export function formatCurrency(amount: number, locale: Locale, currency = 'SAR')
 }
 
 export function formatDate(iso: string, locale: Locale) {
-  return cached(
-    `d:${locale}`,
-    () => new Intl.DateTimeFormat(INTL_LOCALE[locale], { dateStyle: 'medium' }),
-  ).format(new Date(iso))
+  return cached(`d:${locale}`, () => new Intl.DateTimeFormat(INTL_LOCALE[locale], { dateStyle: 'medium' })).format(
+    new Date(iso),
+  )
 }
 
 const RELATIVE_UNITS: [Intl.RelativeTimeFormatUnit, number][] = [
@@ -70,10 +69,7 @@ const RELATIVE_UNITS: [Intl.RelativeTimeFormatUnit, number][] = [
 
 /** "3 days ago" / "قبل ٣ أيام". `now` is injectable so tests are deterministic. */
 export function formatRelative(iso: string, locale: Locale, now: Date = new Date()) {
-  const rtf = cached(
-    `r:${locale}`,
-    () => new Intl.RelativeTimeFormat(INTL_LOCALE[locale], { numeric: 'auto' }),
-  )
+  const rtf = cached(`r:${locale}`, () => new Intl.RelativeTimeFormat(INTL_LOCALE[locale], { numeric: 'auto' }))
   const seconds = (new Date(iso).getTime() - now.getTime()) / 1000
   for (const [unit, size] of RELATIVE_UNITS) {
     if (Math.abs(seconds) >= size) return rtf.format(Math.round(seconds / size), unit)

@@ -165,7 +165,7 @@ export const ar: Messages = {
       stale: 'قديم: تغيّر هذا السجل بعد إنشاء الاقتراح.',
       readOnly: 'دورك للقراءة فقط، يمكنك مراجعة الاقتراحات دون تطبيقها.',
     },
-    generatedBy: 'أنشأه {{model}} · {{time}}',
+    generatedBy: 'أنشأه',
   },
   approval: {
     title: 'تطبيق اقتراح الذكاء الاصطناعي؟',

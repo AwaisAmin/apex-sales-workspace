@@ -12,7 +12,14 @@ export function Chevron({ direction, className }: { direction: 'start' | 'end' |
   }[direction]
   return (
     <svg aria-hidden="true" viewBox="0 0 20 20" className={cn('size-4', rotate, className)}>
-      <path d="M7.5 4.5 13 10l-5.5 5.5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      <path
+        d="M7.5 4.5 13 10l-5.5 5.5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   )
 }
@@ -20,8 +27,20 @@ export function Chevron({ direction, className }: { direction: 'start' | 'end' |
 export function SortIcon({ dir }: { dir: 'asc' | 'desc' | null }) {
   return (
     <svg aria-hidden="true" viewBox="0 0 20 20" className="size-4 shrink-0">
-      <path d="M6 8l4-4 4 4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeOpacity={dir === 'asc' ? 1 : 0.3} />
-      <path d="M6 12l4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeOpacity={dir === 'desc' ? 1 : 0.3} />
+      <path
+        d="M6 8l4-4 4 4"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeOpacity={dir === 'asc' ? 1 : 0.3}
+      />
+      <path
+        d="M6 12l4 4 4-4"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeOpacity={dir === 'desc' ? 1 : 0.3}
+      />
     </svg>
   )
 }
