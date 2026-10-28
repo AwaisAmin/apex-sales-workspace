@@ -177,9 +177,9 @@ export const ar: Messages = {
     failed: 'لم يتم تغيير أي شيء.',
   },
   statusControl: {
-    label: 'تغيير الحالة',
-    choose: 'اختر الحالة الجديدة…',
-    save: 'حفظ',
+    label: 'الحالة',
+    pipeline: 'مسار العميل المحتمل',
+    markAs: 'تحويل إلى {{status}}',
     saving: 'جارٍ الحفظ… (يظهر فورًا، بانتظار تأكيد الخادم)',
     saved: 'تم تغيير الحالة إلى {{status}}.',
     reverted: '{{reason}} تم التراجع عن تغييرك — عادت الحالة إلى «{{status}}».',

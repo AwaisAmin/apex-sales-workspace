@@ -173,9 +173,9 @@ export const en = {
     failed: 'Nothing was changed.',
   },
   statusControl: {
-    label: 'Change status',
-    choose: 'Choose new status…',
-    save: 'Save',
+    label: 'Status',
+    pipeline: 'Lead pipeline',
+    markAs: 'Mark as {{status}}',
     saving: 'Saving… (shown immediately, confirming with server)',
     saved: 'Status changed to {{status}}.',
     reverted: '{{reason}} Your change was undone — status is back to “{{status}}”.',
