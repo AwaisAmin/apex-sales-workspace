@@ -5,6 +5,19 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Apex Sales</title>
+    <script>
+      // Runs before first paint: apply the saved theme and language direction so the page
+      // never flashes the wrong colours or flips LTR→RTL after load. Mirrors src/app/theme.ts.
+      try {
+        var t = localStorage.getItem('apex.theme')
+        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t
+        var l = localStorage.getItem('apex.locale')
+        if (l === 'ar') {
+          document.documentElement.lang = 'ar'
+          document.documentElement.dir = 'rtl'
+        }
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>

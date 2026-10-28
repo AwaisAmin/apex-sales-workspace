@@ -1,6 +1,7 @@
 import type { MouseEvent, ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher'
+import { ThemeSwitcher } from '@/components/ThemeSwitcher'
 import { Toaster } from '@/components/ui/Toast'
 import { cn } from '@/lib/cn'
 import { DemoControls } from './DemoControls'
@@ -42,7 +43,8 @@ export function AppShell({ children }: { children: ReactNode }) {
       >
         {t('app.skipToContent')}
       </a>
-      <header className="sticky top-0 z-30 border-b border-border bg-surface/95 backdrop-blur">
+      {/* Sticky only from md up: on phones a pinned two-row header would permanently eat ~15% of the screen. */}
+      <header className="z-30 border-b border-border bg-surface/95 backdrop-blur md:sticky md:top-0">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-6 gap-y-2 px-4 py-2.5 md:px-6">
           <p className="text-base font-semibold">{t('app.name')}</p>
           <nav aria-label={t('app.mainNav')} className="order-last flex gap-1 md:order-0">
@@ -50,7 +52,11 @@ export function AppShell({ children }: { children: ReactNode }) {
             <NavLink to={ROUTES.opportunities}>{t('nav.opportunities')}</NavLink>
           </nav>
           <div className="ms-auto flex items-center gap-3">
-            <RoleSwitcher />
+            {/* Demo role switcher: in the header on larger screens, in the footer demo panel on phones. */}
+            <div className="hidden lg:block">
+              <RoleSwitcher />
+            </div>
+            <ThemeSwitcher />
             <LanguageSwitcher />
           </div>
         </div>

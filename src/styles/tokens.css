@@ -4,34 +4,42 @@
  * utilities (bg-surface, text-fg-muted, ...) mapped in index.css.
  *
  * Colors are semantic (what it's for), not literal (what it looks like),
- * so dark mode and future re-branding only touch this file.
+ * so theming and future re-branding only touch this file.
+ *
+ * Theming: each color is written once as light-dark(<light>, <dark>). The browser
+ * picks a side from `color-scheme`, which follows the OS by default and is pinned
+ * by the user's choice via <html data-theme="light|dark"> (see src/app/theme.ts).
+ * Contrast of every pair is checked by `npm run audit:contrast`.
  */
 :root {
-  --color-bg: #f6f7f9;
-  --color-surface: #ffffff;
-  --color-surface-muted: #eef0f3;
-  --color-border: #d9dde3; /* decorative dividers only */
-  --color-border-strong: #7d8796; /* form-control boundaries: 3.6:1 on surface (WCAG 1.4.11) */
-  --color-fg: #14181f;
-  --color-fg-muted: #525b6a; /* 6.9:1 on surface (AA for small text) — verify: npm run audit:contrast */
-  --color-primary: #0b6e4f; /* 6.3:1 on white */
-  --color-primary-hover: #095a41;
-  --color-primary-fg: #ffffff;
-  --color-focus: #2563eb;
-  --color-success: #15803d;
-  --color-success-bg: #dcfce7;
-  --color-success-fg: #ffffff; /* text on solid success */
-  --color-warning: #a16207;
-  --color-warning-bg: #fef9c3;
-  --color-danger: #b91c1c;
-  --color-danger-bg: #fee2e2;
-  --color-danger-fg: #ffffff; /* text on solid danger */
-  --color-info: #1d4ed8;
-  --color-info-bg: #dbeafe;
-  /* AI-generated content gets its own hue so users can always tell it apart */
-  --color-ai: #6d28d9;
-  --color-ai-bg: #f3e8ff;
-  --color-ai-fg: #ffffff; /* text on solid AI (buttons) */
+  color-scheme: light dark;
+
+  --color-bg: light-dark(#f6f7f9, #0e1116);
+  --color-surface: light-dark(#ffffff, #161b22);
+  --color-surface-muted: light-dark(#eef0f3, #1f2630);
+  --color-border: light-dark(#d9dde3, #2f3742); /* decorative dividers only */
+  --color-border-strong: light-dark(#7d8796, #646f7d); /* form-control boundaries ≥ 3:1 (WCAG 1.4.11) */
+  --color-fg: light-dark(#14181f, #e6e9ee);
+  --color-fg-muted: light-dark(#525b6a, #a3acb9);
+  --color-primary: light-dark(#0b6e4f, #34d399);
+  --color-primary-hover: light-dark(#095a41, #6ee7b7);
+  --color-primary-fg: light-dark(#ffffff, #04140e);
+  --color-focus: light-dark(#2563eb, #60a5fa);
+  --color-success: light-dark(#15803d, #4ade80);
+  --color-success-bg: light-dark(#dcfce7, #12301e);
+  --color-success-fg: light-dark(#ffffff, #04140e); /* text on solid success */
+  --color-warning: light-dark(#a16207, #facc15);
+  --color-warning-bg: light-dark(#fef9c3, #3a2f0b);
+  --color-danger: light-dark(#b91c1c, #f87171);
+  --color-danger-bg: light-dark(#fee2e2, #3b1414);
+  --color-danger-fg: light-dark(#ffffff, #1f0505); /* text on solid danger */
+  --color-info: light-dark(#1d4ed8, #93c5fd);
+  --color-info-bg: light-dark(#dbeafe, #172554);
+  /* AI-generated content gets its own hue so users can always tell it apart.
+     Dark-mode solids are light, so text on them must be dark (white on #c4b5fd is only 1.85:1). */
+  --color-ai: light-dark(#6d28d9, #c4b5fd);
+  --color-ai-bg: light-dark(#f3e8ff, #2e1a4f);
+  --color-ai-fg: light-dark(#ffffff, #1e1033); /* text on solid AI (buttons) */
 
   --radius-sm: 0.375rem;
   --radius-md: 0.5rem;
@@ -39,39 +47,14 @@
 
   --shadow-card: 0 1px 2px rgb(16 24 40 / 0.06), 0 1px 3px rgb(16 24 40 / 0.1);
   --duration-fast: 120ms;
-
-  color-scheme: light;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) {
-    --color-bg: #0e1116;
-    --color-surface: #161b22;
-    --color-surface-muted: #1f2630;
-    --color-border: #2f3742;
-    --color-border-strong: #646f7d;
-    --color-fg: #e6e9ee;
-    --color-fg-muted: #a3acb9;
-    --color-primary: #34d399;
-    --color-primary-hover: #6ee7b7;
-    --color-primary-fg: #04140e;
-    --color-focus: #60a5fa;
-    --color-success: #4ade80;
-    --color-success-bg: #12301e;
-    --color-success-fg: #04140e;
-    --color-warning: #facc15;
-    --color-warning-bg: #3a2f0b;
-    --color-danger: #f87171;
-    --color-danger-bg: #3b1414;
-    --color-danger-fg: #1f0505;
-    --color-info: #93c5fd;
-    --color-info-bg: #172554;
-    /* Dark-mode solids are light, so text on them must be dark (white on #c4b5fd is only 1.85:1). */
-    --color-ai: #c4b5fd;
-    --color-ai-bg: #2e1a4f;
-    --color-ai-fg: #1e1033;
-    color-scheme: dark;
-  }
+/* User's explicit choice overrides the OS preference. */
+:root[data-theme='light'] {
+  color-scheme: light;
+}
+:root[data-theme='dark'] {
+  color-scheme: dark;
 }
 
 @media (prefers-reduced-motion: reduce) {

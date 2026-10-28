@@ -33,7 +33,7 @@ export function RoleSwitcher() {
           // Permissions changed: drop cached data fetched under the previous identity.
           void client.invalidateQueries()
         }}
-        className="max-w-48"
+        className="min-w-0"
       >
         {users.data?.map((u) => (
           <option key={u.id} value={u.id}>

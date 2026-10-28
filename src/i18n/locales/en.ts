@@ -14,6 +14,12 @@ export const en = {
     label: 'Language',
     switchTo: 'العربية',
   },
+  theme: {
+    label: 'Theme',
+    system: 'Match system',
+    light: 'Light',
+    dark: 'Dark',
+  },
   common: {
     loading: 'Loading…',
     updating: 'Updating…',

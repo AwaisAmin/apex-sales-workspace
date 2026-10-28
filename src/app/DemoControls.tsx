@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/Button'
 import { Select } from '@/components/ui/Select'
 import { toast } from '@/components/ui/Toast'
 import { getChaos, setChaos, subscribeChaos, type ForcedFailure, type LatencyMode } from '@/mocks/chaos'
+import { RoleSwitcher } from './SessionControls'
 
 const FAILURES = ['', '401', '403', '429', '500'] as const
 
@@ -41,6 +42,10 @@ export function DemoControls() {
     <details className="rounded-lg border border-dashed border-border bg-surface p-3 text-sm" data-testid="demo-controls">
       <summary className="font-medium">{t('demo.title')}</summary>
       <p className="mt-2 text-xs text-fg-muted">{t('demo.hint')}</p>
+      {/* On smaller screens the role switcher lives here instead of the header. */}
+      <div className="mt-3 lg:hidden">
+        <RoleSwitcher />
+      </div>
       <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <div className="flex flex-col gap-1">
           <label htmlFor={ids.latency} className="text-xs font-medium">

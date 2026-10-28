@@ -16,6 +16,12 @@ export const ar: Messages = {
     label: 'اللغة',
     switchTo: 'English',
   },
+  theme: {
+    label: 'المظهر',
+    system: 'حسب النظام',
+    light: 'فاتح',
+    dark: 'داكن',
+  },
   common: {
     loading: 'جارٍ التحميل…',
     updating: 'جارٍ التحديث…',
