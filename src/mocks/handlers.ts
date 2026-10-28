@@ -8,13 +8,12 @@ import {
   type ApiErrorBody,
   type User,
 } from '@/api/schemas'
+import { SESSION_HEADER } from '@/api/session'
 import { getChaos, latencyFor } from './chaos'
 import { DbError, type Db } from './db'
 
 // Origin wildcard: matches same-origin requests in the browser and absolute URLs in Node tests.
 const API = '*/api'
-/** Simulated session: the client sends the signed-in user's id. Missing/unknown → 401. */
-export const SESSION_HEADER = 'x-apex-user'
 
 const STATUS_CODE: Record<number, ApiErrorBody['code']> = {
   401: 'UNAUTHORIZED',
