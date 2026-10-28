@@ -1,0 +1,51 @@
+﻿ ✓ src/features/opportunities/opportunity.test.ts > opportunity derived values > weighted value = amount × probability, rounded to whole riyals 8ms
+ ✓ src/features/opportunities/opportunity.test.ts > opportunity derived values > an open deal past its close date is overdue; a closed one never is 7ms
+ ✓ src/lib/format.test.ts > locale formatting > uses Arabic-Indic digits and the riyal sign in Arabic 31ms
+ ✓ src/lib/format.test.ts > locale formatting > formats plain numbers per locale 6ms
+ ✓ src/lib/format.test.ts > locale formatting > shows business dates in the Gregorian calendar in Arabic (not Hijri) 11ms
+ ✓ src/lib/format.test.ts > locale formatting > formats relative time deterministically from an injected "now" 8ms
+ ✓ src/mocks/db.test.ts > mock backend rules > seed data is deterministic 13ms
+ ✓ src/mocks/db.test.ts > mock backend rules > rejects a disallowed status transition with 422 and field errors 24ms
+ ✓ src/mocks/db.test.ts > mock backend rules > rejects a stale version with 409 (optimistic concurrency) 10ms
+ ✓ src/mocks/db.test.ts > mock backend rules > applying a suggestion consumes it and writes an audit entry naming the approver 11ms
+ ✓ src/mocks/db.test.ts > mock backend rules > refuses a suggestion once the record changed after it was generated 8ms
+ ✓ src/mocks/db.test.ts > mock backend rules > cites only supporting activities as evidence for lead suggestions 6ms
+ ✓ src/features/assistant/policy.test.ts > confidenceBand > 0.95 → high 8ms
+ ✓ src/features/assistant/policy.test.ts > confidenceBand > 0.75 → high 6ms
+ ✓ src/features/assistant/policy.test.ts > confidenceBand > 0.749 → medium 6ms
+ ✓ src/features/assistant/policy.test.ts > confidenceBand > 0.5 → medium 6ms
+ ✓ src/features/assistant/policy.test.ts > confidenceBand > 0.499 → low 8ms
+ ✓ src/features/assistant/policy.test.ts > confidenceBand > 0 → low 4ms
+ ✓ src/features/assistant/policy.test.ts > blockReason (what the UI may offer for approval) > allows a grounded, current suggestion for a rep or manager 6ms
+ ✓ src/features/assistant/policy.test.ts > blockReason (what the UI may offer for approval) > never allows a suggestion without evidence, regardless of role or confidence 5ms
+ ✓ src/features/assistant/policy.test.ts > blockReason (what the UI may offer for approval) > blocks a suggestion generated against an older version of the record 3ms
+ ✓ src/features/assistant/policy.test.ts > blockReason (what the UI may offer for approval) > blocks read-only users 3ms
+ ✓ src/features/assistant/policy.test.ts > blockReason (what the UI may offer for approval) > fails closed while the role is still unknown 4ms
+ ✓ src/features/assistant/policy.test.ts > requiresAcknowledgement > is required only for low-confidence suggestions 4ms
+ ✓ src/i18n/i18n.test.tsx > bilingual interface > Arabic has exactly the same keys as English, and none are empty 12ms
+ ✓ src/api/client.test.ts > typed API boundary > returns schema-validated data 53ms
+ ✓ src/api/client.test.ts > typed API boundary > rejects a response that does not match the contract (no bad data reaches the UI) 10ms
+ ✓ src/i18n/i18n.test.tsx > bilingual interface > switching language flips the document to RTL Arabic and persists the choice 172ms
+ ✓ src/api/client.test.ts > typed API boundary > maps HTTP failures to typed error codes 34ms
+ ✓ src/api/client.test.ts > typed API boundary > surfaces 422 field errors from the server 16ms
+ ✓ src/api/client.test.ts > retry policy > retries transient read failures 3 times, then gives up 91ms
+ ✓ src/api/client.test.ts > retry policy > does not retry deterministic 4xx errors 15ms
+ ✓ src/api/client.test.ts > retry policy > never auto-retries writes (a timed-out write may already have succeeded) 5ms
+ ✓ src/api/client.test.ts > retry policy > flags the session as expired on any 401 10ms
+ ✓ src/features/assistant/approval.test.tsx > AI suggestion → human approval gate > shows a grounded suggestion as a proposal, not an applied change 328ms
+ ✓ src/features/leads/statusOptimistic.test.tsx > manual status change — optimistic with rollback > shows the new status immediately, before the server answers 441ms
+ ✓ src/features/leads/statusOptimistic.test.tsx > manual status change — optimistic with rollback > rolls back immediately and explains when the server rejects the change 131ms
+ ✓ src/features/assistant/approval.test.tsx > AI suggestion → human approval gate > opening the review and cancelling never writes anything 234ms
+ ✓ src/features/leads/LeadsView.test.tsx > leads list states > loads a page and keeps filters in the URL 463ms
+ ✓ src/features/leads/statusOptimistic.test.tsx > manual status change — optimistic with rollback > rolls back immediately on a version conflict (another user edited the lead) 102ms
+ ✓ src/features/leads/statusOptimistic.test.tsx > manual status change — optimistic with rollback > keeps keyboard focus inside the section after the pressed button disappears 113ms
+ ✓ src/features/leads/LeadsView.test.tsx > leads list states > sorts via column header and exposes the state with aria-sort 141ms
+ ✓ src/features/assistant/approval.test.tsx > AI suggestion → human approval gate > applies exactly one write after explicit approval, and records it in the audit trail 200ms
+ ✓ src/features/leads/LeadsView.test.tsx > leads list states > shows an empty state with a way out 90ms
+ ✓ src/features/leads/LeadsView.test.tsx > leads list states > shows an error state after retries are exhausted, and recovers on "Try again" 150ms
+ ✓ src/features/assistant/approval.test.tsx > AI suggestion → human approval gate > requires an explicit acknowledgement before applying a low-confidence suggestion 198ms
+ ✓ src/features/assistant/approval.test.tsx > AI suggestion → human approval gate > lets a read-only user review but not apply, and says why 115ms
+ ✓ src/features/assistant/approval.test.tsx > AI suggestion → human approval gate > a suggestion becomes non-actionable once the record changes underneath it 49ms
+ Test Files  9 passed (9)
+      Tests  48 passed (48)
+   Duration  3.59s (environment 45%, setup 23%, tests 16%, transform 9%, import 7%)
