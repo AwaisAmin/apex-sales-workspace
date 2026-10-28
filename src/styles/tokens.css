@@ -10,24 +10,28 @@
   --color-bg: #f6f7f9;
   --color-surface: #ffffff;
   --color-surface-muted: #eef0f3;
-  --color-border: #d9dde3;
+  --color-border: #d9dde3; /* decorative dividers only */
+  --color-border-strong: #7d8796; /* form-control boundaries: 3.6:1 on surface (WCAG 1.4.11) */
   --color-fg: #14181f;
-  --color-fg-muted: #525b6a; /* 7.0:1 on surface (AA for small text) */
-  --color-primary: #0b6e4f; /* 6.1:1 on white */
+  --color-fg-muted: #525b6a; /* 6.9:1 on surface (AA for small text) — verify: npm run audit:contrast */
+  --color-primary: #0b6e4f; /* 6.3:1 on white */
   --color-primary-hover: #095a41;
   --color-primary-fg: #ffffff;
   --color-focus: #2563eb;
   --color-success: #15803d;
   --color-success-bg: #dcfce7;
+  --color-success-fg: #ffffff; /* text on solid success */
   --color-warning: #a16207;
   --color-warning-bg: #fef9c3;
   --color-danger: #b91c1c;
   --color-danger-bg: #fee2e2;
+  --color-danger-fg: #ffffff; /* text on solid danger */
   --color-info: #1d4ed8;
   --color-info-bg: #dbeafe;
   /* AI-generated content gets its own hue so users can always tell it apart */
   --color-ai: #6d28d9;
   --color-ai-bg: #f3e8ff;
+  --color-ai-fg: #ffffff; /* text on solid AI (buttons) */
 
   --radius-sm: 0.375rem;
   --radius-md: 0.5rem;
@@ -45,6 +49,7 @@
     --color-surface: #161b22;
     --color-surface-muted: #1f2630;
     --color-border: #2f3742;
+    --color-border-strong: #646f7d;
     --color-fg: #e6e9ee;
     --color-fg-muted: #a3acb9;
     --color-primary: #34d399;
@@ -53,14 +58,18 @@
     --color-focus: #60a5fa;
     --color-success: #4ade80;
     --color-success-bg: #12301e;
+    --color-success-fg: #04140e;
     --color-warning: #facc15;
     --color-warning-bg: #3a2f0b;
     --color-danger: #f87171;
     --color-danger-bg: #3b1414;
+    --color-danger-fg: #1f0505;
     --color-info: #93c5fd;
     --color-info-bg: #172554;
+    /* Dark-mode solids are light, so text on them must be dark (white on #c4b5fd is only 1.85:1). */
     --color-ai: #c4b5fd;
     --color-ai-bg: #2e1a4f;
+    --color-ai-fg: #1e1033;
     color-scheme: dark;
   }
 }

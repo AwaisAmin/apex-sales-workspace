@@ -38,7 +38,7 @@ export function SearchField({ label, placeholder, value, onSearch, delayMs = 300
         value={text}
         onChange={(e) => setText(e.target.value)}
         placeholder={placeholder}
-        className="h-10 rounded-md border border-border bg-surface px-3"
+        className="h-10 rounded-md border border-border-strong bg-surface px-3 placeholder:text-fg-muted"
       />
     </div>
   )

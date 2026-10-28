@@ -6,8 +6,8 @@ const VARIANTS = {
   primary: 'bg-primary text-primary-fg hover:bg-primary-hover',
   secondary: 'border border-border bg-surface text-fg hover:bg-surface-muted',
   ghost: 'text-fg hover:bg-surface-muted',
-  danger: 'bg-danger text-white hover:opacity-90',
-  ai: 'bg-ai text-white hover:opacity-90',
+  danger: 'bg-danger text-danger-fg hover:opacity-90',
+  ai: 'bg-ai text-ai-fg hover:opacity-90',
 } as const
 
 const SIZES = {

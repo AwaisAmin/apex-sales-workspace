@@ -48,8 +48,8 @@ export function Toaster() {
           key={t.id}
           className={cn(
             'pointer-events-auto max-w-md rounded-md px-4 py-2.5 text-sm font-medium shadow-card',
-            t.tone === 'success' && 'bg-success text-white dark:text-black',
-            t.tone === 'danger' && 'bg-danger text-white dark:text-black',
+            t.tone === 'success' && 'bg-success text-success-fg',
+            t.tone === 'danger' && 'bg-danger text-danger-fg',
             t.tone === 'info' && 'bg-fg text-bg',
           )}
         >

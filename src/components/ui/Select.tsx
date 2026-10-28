@@ -21,7 +21,8 @@ export function Select({ size = 'md', className, children, ...props }: SelectPro
     <div className={cn('relative', className)}>
       <select
         className={cn(
-          'w-full appearance-none rounded-md border border-border bg-surface ps-3 pe-9 text-fg',
+          // border-strong: a form control's boundary must reach 3:1 (WCAG 1.4.11).
+          'w-full appearance-none rounded-md border border-border-strong bg-surface ps-3 pe-9 text-fg',
           'cursor-pointer hover:bg-surface-muted disabled:cursor-not-allowed disabled:opacity-60',
           SIZES[size],
         )}
