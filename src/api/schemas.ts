@@ -193,8 +193,9 @@ export type OpportunitySortField = z.infer<typeof OpportunitySortField>
 export const OpportunityQuery = z.object({
   page: z.number().int().min(1).default(1),
   pageSize: z.number().int().min(5).max(100).default(10),
-  sort: OpportunitySortField.default('expectedCloseDate'),
-  dir: SortDir.default('asc'),
+  // Recently active deals first; sorting by close date ascending would lead with long-closed deals.
+  sort: OpportunitySortField.default('updatedAt'),
+  dir: SortDir.default('desc'),
   stage: z.array(OpportunityStage).default([]),
   search: z.string().trim().max(100).optional(),
 })

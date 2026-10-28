@@ -1,10 +1,9 @@
-﻿import type { MouseEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { Lead, LeadQuery, LeadSortField } from '@/api/schemas'
+import { RecordLink, rowClickHandler } from '@/components/ui/RecordLink'
 import { SortableHeader } from '@/components/ui/SortableHeader'
 import { Skeleton } from '@/components/ui/Skeleton'
 import { useLocale } from '@/i18n/useLocale'
-import { cn } from '@/lib/cn'
 import { formatCurrency, formatDate, formatNumber, formatRelative } from '@/lib/format'
 import { LeadStatusBadge } from './LeadStatusBadge'
 
@@ -14,22 +13,6 @@ interface LeadsListProps {
   selectedId: string | null
   onSort: (sort: LeadSortField, dir: 'asc' | 'desc') => void
   onSelect: (id: string) => void
-}
-
-/** Opens the lead in the side panel; still a real link, so Ctrl/âŒ˜-click or "open in new tab" work. */
-function LeadLink({ lead, onSelect, className }: { lead: Lead; onSelect: (id: string) => void; className?: string }) {
-  const { locale } = useLocale()
-  const href = `?lead=${lead.id}`
-  const handle = (e: MouseEvent) => {
-    if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return
-    e.preventDefault()
-    onSelect(lead.id)
-  }
-  return (
-    <a href={href} onClick={handle} className={cn('font-medium text-fg hover:underline', className)}>
-      {lead.company[locale]}
-    </a>
-  )
 }
 
 /**
@@ -50,12 +33,12 @@ export function LeadsList({ leads, query, selectedId, onSort, onSelect }: LeadsL
     lastContactedAt: t('leads.columns.lastContactedAt'),
   }
   const sortProps = { sort: query.sort, dir: query.dir, onSort }
-  const rowClick = (e: MouseEvent, id: string) => {
-    // Let the link handle its own clicks (incl. Ctrl/âŒ˜-click), and don't hijack text selection.
-    if ((e.target as HTMLElement).closest('a, button') || window.getSelection()?.toString()) return
-    onSelect(id)
-  }
   const skeletonRows = Array.from({ length: Math.min(query.pageSize, 10) }, (_, i) => i)
+  const link = (lead: Lead) => (
+    <RecordLink href={`?lead=${lead.id}`} onSelect={() => onSelect(lead.id)}>
+      {lead.company[locale]}
+    </RecordLink>
+  )
 
   return (
     <>
@@ -84,13 +67,11 @@ export function LeadsList({ leads, query, selectedId, onSort, onSelect }: LeadsL
                   <tr
                     key={lead.id}
                     aria-current={lead.id === selectedId ? 'true' : undefined}
-                    // Mouse convenience: the whole row opens the lead. Keyboard/screen-reader users use the
-                    // company link, so the row itself is not a second tab stop.
-                    onClick={(e) => rowClick(e, lead.id)}
+                    onClick={rowClickHandler(() => onSelect(lead.id))}
                     className="cursor-pointer border-b border-border last:border-0 hover:bg-surface-muted/50 aria-current:bg-primary/10"
                   >
                     <td className="px-3 py-2.5">
-                      <LeadLink lead={lead} onSelect={onSelect} />
+                      {link(lead)}
                       <div className="text-xs text-fg-muted">{lead.contactName[locale]}</div>
                     </td>
                     <td className="px-3 py-2.5">
@@ -125,15 +106,15 @@ export function LeadsList({ leads, query, selectedId, onSort, onSelect }: LeadsL
               <li
                 key={lead.id}
                 aria-current={lead.id === selectedId ? 'true' : undefined}
-                onClick={(e) => rowClick(e, lead.id)}
+                onClick={rowClickHandler(() => onSelect(lead.id))}
                 className="flex cursor-pointer flex-col gap-1.5 p-4 active:bg-surface-muted aria-current:bg-primary/10"
               >
                 <div className="flex items-start justify-between gap-2">
-                  <LeadLink lead={lead} onSelect={onSelect} />
+                  {link(lead)}
                   <LeadStatusBadge status={lead.status} />
                 </div>
                 <p className="text-sm text-fg-muted">
-                  {lead.contactName[locale]} Â· {t(`city.${lead.city}`)}
+                  {lead.contactName[locale]} · {t(`city.${lead.city}`)}
                 </p>
                 <dl className="grid grid-cols-2 gap-x-4 text-sm">
                   <dt className="text-fg-muted">{col('estimatedValue')}</dt>

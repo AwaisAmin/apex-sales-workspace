@@ -1,4 +1,4 @@
-﻿@import 'tailwindcss';
+@import 'tailwindcss';
 @import './styles/tokens.css';
 
 /* Map design tokens to Tailwind utilities (bg-surface, text-fg-muted, border-border, ...). */

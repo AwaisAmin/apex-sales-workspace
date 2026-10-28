@@ -250,7 +250,9 @@ export function createSeed(seed = 20261029, leadCount = 120): Seed {
         stage,
         amount: int(rng, 4, 200) * 5000,
         probability: STAGE_PROBABILITY[stage],
-        expectedCloseDate: stage.startsWith('closed') ? daysAgo(int(rng, 1, 60)) : daysAhead(int(rng, 7, 120)),
+        // Some open deals have slipped past their close date, so the "Overdue" state is visible in the demo.
+        expectedCloseDate:
+          stage.startsWith('closed') || rng() < 0.2 ? daysAgo(int(rng, 1, 60)) : daysAhead(int(rng, 7, 120)),
         nextStep: null,
         ownerId: rng() < 0.7 ? 'u-rep' : 'u-mgr',
         updatedAt: daysAgo(int(rng, 0, 20)),
