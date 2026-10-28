@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 import { Toaster } from '@/components/ui/Toast'
 import { cn } from '@/lib/cn'
+import { DemoControls } from './DemoControls'
 import { navigate, ROUTES, useLocation } from './router'
 import { RoleSwitcher, SessionExpiredBanner } from './SessionControls'
 
@@ -58,6 +59,9 @@ export function AppShell({ children }: { children: ReactNode }) {
       <main id="main" tabIndex={-1} className="mx-auto max-w-7xl px-4 py-6 focus:outline-none md:px-6">
         {children}
       </main>
+      <footer className="mx-auto max-w-7xl px-4 pb-8 md:px-6">
+        <DemoControls />
+      </footer>
       <Toaster />
     </div>
   )

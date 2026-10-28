@@ -45,6 +45,8 @@ export function useApplySuggestion() {
   return useMutation({
     mutationFn: ({ suggestion, version }: { suggestion: AiSuggestion; version: number }) =>
       applyChange(suggestion, version),
+    // Returned (awaited) on purpose: the approval dialog closes only once the drawer already shows the
+    // server-confirmed record, so the user never sees a half-updated state for an AI-originated change.
     onSuccess: (_data, { suggestion }) => refresh(suggestion),
     onError: (error, { suggestion }) => {
       // Stale or vanished suggestion: refetch so the UI shows the current record and drops the suggestion.

@@ -22,7 +22,7 @@ export function Select({ size = 'md', className, children, ...props }: SelectPro
       <select
         className={cn(
           'w-full appearance-none rounded-md border border-border bg-surface ps-3 pe-9 text-fg',
-          'cursor-pointer hover:bg-surface-muted',
+          'cursor-pointer hover:bg-surface-muted disabled:cursor-not-allowed disabled:opacity-60',
           SIZES[size],
         )}
         {...props}

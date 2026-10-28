@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { api } from '@/api/endpoints'
 import { qk } from '@/api/queryKeys'
 import { useUsers } from '@/api/useSession'
+import { ExternalEditButton } from '@/app/DemoControls'
 import { DetailDrawer, FieldList } from '@/components/DetailDrawer'
 import { Badge } from '@/components/ui/Badge'
 import { ActivityTimeline, focusActivity } from '@/features/assistant/ActivityTimeline'
@@ -92,6 +93,7 @@ export function OpportunityDetailPanel({ oppId, onClose }: { oppId: string | nul
           />
           <ActivityTimeline activities={activities.data ?? []} />
           <AuditHistory targetId={o.id} />
+          <ExternalEditButton type="opportunity" id={o.id} />
         </>
       )}
     </DetailDrawer>

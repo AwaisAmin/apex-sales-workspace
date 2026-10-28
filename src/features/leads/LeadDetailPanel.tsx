@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { api } from '@/api/endpoints'
 import { qk } from '@/api/queryKeys'
 import { useUsers } from '@/api/useSession'
+import { ExternalEditButton } from '@/app/DemoControls'
 import { DetailDrawer, FieldList } from '@/components/DetailDrawer'
 import { ActivityTimeline, focusActivity } from '@/features/assistant/ActivityTimeline'
 import { AssistantPanel } from '@/features/assistant/AssistantPanel'
@@ -10,6 +11,7 @@ import { AuditHistory } from '@/features/assistant/AuditHistory'
 import { useLocale } from '@/i18n/useLocale'
 import { formatCurrency, formatDate, formatNumber } from '@/lib/format'
 import { LeadStatusBadge } from './LeadStatusBadge'
+import { LeadStatusControl } from './LeadStatusControl'
 
 export function LeadDetailPanel({ leadId, onClose }: { leadId: string | null; onClose: () => void }) {
   const { t } = useTranslation()
@@ -63,6 +65,7 @@ export function LeadDetailPanel({ leadId, onClose }: { leadId: string | null; on
               { label: t('detail.version'), value: <span className="tabular">{formatNumber(l.version, locale)}</span> },
             ]}
           />
+          <LeadStatusControl lead={l} />
           <AssistantPanel
             targetType="lead"
             targetId={l.id}
@@ -73,6 +76,7 @@ export function LeadDetailPanel({ leadId, onClose }: { leadId: string | null; on
           />
           <ActivityTimeline activities={activities.data ?? []} />
           <AuditHistory targetId={l.id} />
+          <ExternalEditButton type="lead" id={l.id} />
         </>
       )}
     </DetailDrawer>

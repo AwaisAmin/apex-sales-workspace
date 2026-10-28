@@ -180,5 +180,15 @@ export function createHandlers(db: Db) {
     ),
 
     http.get(`${API}/audit`, endpoint(db, 'read', () => HttpResponse.json(db.audit()))),
+
+    // Demo-only: not part of the product API. Bypasses chaos/auth so it works while failures are injected.
+    http.post(`${API}/__demo/external-edit/:type/:id`, ({ params }) => {
+      try {
+        const type = params.type === 'opportunity' ? 'opportunity' : 'lead'
+        return HttpResponse.json(db.simulateExternalEdit(type, String(params.id)))
+      } catch (e) {
+        return e instanceof DbError ? error(e.status, e.message) : error(500, 'Unexpected server error')
+      }
+    }),
   ]
 }

@@ -4,7 +4,6 @@ import type {
   AuditEntry,
   Lead,
   LeadQuery,
-  LeadStatus,
   Opportunity,
   OpportunityQuery,
   OpportunityStage,
@@ -13,6 +12,7 @@ import type {
   UpdateOpportunityInput,
   User,
 } from '@/api/schemas'
+import { LEAD_TRANSITIONS, NEXT_STEP_MAX } from '@/api/rules'
 import { createSeed } from './seed'
 
 /*
@@ -21,16 +21,7 @@ import { createSeed } from './seed'
  * real server would enforce them — the UI may pre-check, but never decides.
  */
 
-/** Allowed lead status transitions. Anything else is a 422. */
-export const LEAD_TRANSITIONS: Record<LeadStatus, LeadStatus[]> = {
-  new: ['contacted', 'unqualified'],
-  contacted: ['qualified', 'unqualified'],
-  qualified: ['unqualified'],
-  unqualified: ['contacted'],
-}
-
 const CLOSED: OpportunityStage[] = ['closed_won', 'closed_lost']
-export const NEXT_STEP_MAX = 200
 
 /** Thrown by db operations; handlers translate it into an HTTP error response. */
 export class DbError extends Error {
@@ -234,6 +225,24 @@ export function createDb(seed = createSeed()) {
     },
 
     audit: () => audit,
+
+    /**
+     * Demo/testing hook: simulates another user editing the record (version bump), so a
+     * reviewer can trigger 409 conflicts and stale AI suggestions on demand.
+     */
+    simulateExternalEdit(targetType: 'lead' | 'opportunity', id: string) {
+      const record = targetType === 'lead' ? findLead(id) : findOpportunity(id)
+      record.version += 1
+      log({
+        actorId: 'u-mgr',
+        targetType,
+        targetId: id,
+        action: 'update',
+        suggestionId: null,
+        summary: 'edited in another session (simulated)',
+      })
+      return record
+    },
   }
 }
 
