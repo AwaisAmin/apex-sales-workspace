@@ -35,19 +35,21 @@ The mock API starts automatically in both modes. Data lives in memory: **reloadi
 
 ## Scripts
 
-| Command                   | What it does                                                                         |
-| ------------------------- | ------------------------------------------------------------------------------------ |
-| `npm run dev`             | Vite dev server with HMR and React Query devtools                                    |
-| `npm run build`           | Type-check all projects (`tsc -b`) and build to `dist/`                              |
-| `npm run preview`         | Serve the production build                                                           |
-| `npm run check`           | **Full quality gate:** typecheck + lint + format check + contrast audit + unit tests |
-| `npm test`                | Unit and component tests (Vitest + Testing Library + MSW)                            |
-| `npm run test:coverage`   | Unit tests with coverage report (`coverage/index.html`)                              |
-| `npm run test:e2e`        | Playwright E2E against the production build (desktop + mobile)                       |
-| `npm run e2e:screenshots` | Regenerate the deliverable screenshots into `docs/screenshots`                       |
-| `npm run audit:contrast`  | WCAG contrast check of every design-token colour pair, both themes                   |
-| `npm run lint`            | oxlint                                                                               |
-| `npm run format`          | Prettier (with Tailwind class sorting)                                               |
+| Command                      | What it does                                                                         |
+| ---------------------------- | ------------------------------------------------------------------------------------ |
+| `npm run dev`                | Vite dev server with HMR and React Query devtools                                    |
+| `npm run build`              | Type-check all projects (`tsc -b`) and build to `dist/`                              |
+| `npm run preview`            | Serve the production build                                                           |
+| `npm run check`              | **Full quality gate:** typecheck + lint + format check + contrast audit + unit tests |
+| `npm test`                   | Unit and component tests (Vitest + Testing Library + MSW)                            |
+| `npm run test:coverage`      | Unit tests with coverage report (`coverage/index.html`)                              |
+| `npm run test:e2e`           | Playwright E2E against the production build (desktop + mobile)                       |
+| `npm run e2e:screenshots`    | Regenerate the deliverable screenshots into `docs/screenshots`                       |
+| `npm run audit:contrast`     | WCAG contrast check of every design-token colour pair, both themes                   |
+| `npm run audit:lighthouse`   | Lighthouse ×3 per page/preset, app-only and simulated (needs `npm run preview`)      |
+| `npm run audit:interactions` | Interaction latency at 1× and 4× CPU (needs `npm run preview`)                       |
+| `npm run lint`               | oxlint                                                                               |
+| `npm run format`             | Prettier (with Tailwind class sorting)                                               |
 
 ### E2E browser
 
@@ -96,7 +98,15 @@ The same conditions can be set from the URL: `?latency=slow`, `?latency=none`, `
 | Reusable components, design tokens, state management            | [`components/ui`](src/components/ui), [`styles/tokens.css`](src/styles/tokens.css) (`light-dark()` semantic tokens); state model in [ARCHITECTURE.md](docs/ARCHITECTURE.md#state-management)                               |
 | Unit/component + E2E tests, a11y audit                          | 52 Vitest tests, 28 Playwright tests (2 user journeys + axe matrix) — see [Testing](#testing) and [`docs/evidence`](docs/evidence)                                                                                         |
 
-Design decisions, trade-offs and diagrams: **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)**.
+## Documentation
+
+| Document                                  | Contents                                                                             |
+| ----------------------------------------- | ------------------------------------------------------------------------------------ |
+| [ARCHITECTURE.md](docs/ARCHITECTURE.md)   | Layers, diagrams, state management, API/retry policy, AI safety design, i18n, tokens |
+| [AUDIT.md](docs/AUDIT.md)                 | Measured performance (Lighthouse, interactions, bundle) and accessibility results    |
+| [DECISIONS.md](docs/DECISIONS.md)         | Decision memo, trade-offs, assumptions, risks and the 90-day roadmap                 |
+| [AI-DISCLOSURE.md](docs/AI-DISCLOSURE.md) | How AI assistance was used                                                           |
+| [docs/evidence](docs/evidence)            | Raw test runs, Lighthouse JSON, interaction timings, accessibility pass              |
 
 ---
 

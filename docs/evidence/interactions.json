@@ -1,0 +1,77 @@
+{
+  "date": "2026-10-28T21:46:24.881Z",
+  "base": "http://localhost:4173",
+  "repetitions": 5,
+  "results": [
+    {
+      "cpu": "1×",
+      "interaction": "Sort by score (list re-render)",
+      "medianMs": 22,
+      "maxMs": 27,
+      "longTasks": 0
+    },
+    {
+      "cpu": "1×",
+      "interaction": "Next page (prefetched)",
+      "medianMs": 11,
+      "maxMs": 19,
+      "longTasks": 0
+    },
+    {
+      "cpu": "1×",
+      "interaction": "Status filter chip",
+      "medianMs": 24,
+      "maxMs": 35,
+      "longTasks": 0
+    },
+    {
+      "cpu": "1×",
+      "interaction": "Open lead drawer → AI suggestion shown",
+      "medianMs": 41,
+      "maxMs": 70,
+      "longTasks": 0
+    },
+    {
+      "cpu": "1×",
+      "interaction": "Switch language EN → AR (full re-render, RTL)",
+      "medianMs": 9,
+      "maxMs": 12,
+      "longTasks": 0
+    },
+    {
+      "cpu": "4×",
+      "interaction": "Sort by score (list re-render)",
+      "medianMs": 294,
+      "maxMs": 389,
+      "longTasks": 7
+    },
+    {
+      "cpu": "4×",
+      "interaction": "Next page (prefetched)",
+      "medianMs": 157,
+      "maxMs": 191,
+      "longTasks": 5
+    },
+    {
+      "cpu": "4×",
+      "interaction": "Status filter chip",
+      "medianMs": 341,
+      "maxMs": 489,
+      "longTasks": 9
+    },
+    {
+      "cpu": "4×",
+      "interaction": "Open lead drawer → AI suggestion shown",
+      "medianMs": 405,
+      "maxMs": 976,
+      "longTasks": 8
+    },
+    {
+      "cpu": "4×",
+      "interaction": "Switch language EN → AR (full re-render, RTL)",
+      "medianMs": 136,
+      "maxMs": 333,
+      "longTasks": 10
+    }
+  ]
+}

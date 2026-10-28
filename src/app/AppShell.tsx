@@ -44,7 +44,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         {t('app.skipToContent')}
       </a>
       {/* Sticky only from md up: on phones a pinned two-row header would permanently eat ~15% of the screen. */}
-      <header className="z-30 border-b border-border bg-surface/95 backdrop-blur md:sticky md:top-0">
+      <header className="z-30 border-b border-border bg-surface md:sticky md:top-0">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-6 gap-y-2 px-4 py-2.5 md:px-6">
           <p className="text-base font-semibold">{t('app.name')}</p>
           <nav aria-label={t('app.mainNav')} className="order-last flex gap-1 md:order-0">

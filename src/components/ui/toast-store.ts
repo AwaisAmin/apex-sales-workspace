@@ -44,15 +44,23 @@ export function subscribeToasts(listener: () => void) {
 export const getToasts = () => items
 export const getTopLayer = () => modalStack.at(-1) ?? null
 
+/** Mirrors "any modal open" onto <html data-modal-open> (used for the page scroll lock in index.css). */
+function syncModalAttribute() {
+  if (modalStack.length > 0) document.documentElement.dataset.modalOpen = ''
+  else delete document.documentElement.dataset.modalOpen
+}
+
 /** Called by Dialog right after showModal() / on close, keeping the stack in top-layer order. */
 export function pushModalLayer(id: string) {
   modalStack = [...modalStack.filter((m) => m !== id), id]
+  syncModalAttribute()
   emit()
 }
 
 export function popModalLayer(id: string) {
   if (!modalStack.includes(id)) return
   modalStack = modalStack.filter((m) => m !== id)
+  syncModalAttribute()
   emit()
 }
 
@@ -60,5 +68,6 @@ export function popModalLayer(id: string) {
 export function resetToastsForTests() {
   items = []
   modalStack = []
+  syncModalAttribute()
   emit()
 }

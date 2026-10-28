@@ -123,7 +123,9 @@ export function ApprovalDialog({
               onChange={(e) => setAcknowledged(e.target.checked)}
               className="mt-0.5 size-4 shrink-0 accent-warning"
             />
-            <label htmlFor={ackId}>{t('approval.acknowledge')}</label>
+            <label htmlFor={ackId} className="cursor-pointer">
+              {t('approval.acknowledge')}
+            </label>
           </div>
         )}
 

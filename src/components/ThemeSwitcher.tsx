@@ -28,7 +28,7 @@ export function ThemeSwitcher() {
           key={value}
           title={t(`theme.${value}`)}
           className={cn(
-            'inline-flex size-7 items-center justify-center rounded-sm text-fg-muted',
+            'inline-flex size-7 cursor-pointer items-center justify-center rounded-sm text-fg-muted',
             'has-focus-visible:outline-2 has-focus-visible:outline-offset-1 has-focus-visible:outline-focus',
             theme === value ? 'bg-surface-muted text-fg' : 'hover:text-fg',
           )}

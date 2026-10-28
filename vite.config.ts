@@ -9,6 +9,9 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
+      // MSW's cookie emulation drags in a ~255 kB public-suffix list; this app's mock API uses no
+      // cookies, so an empty jar is equivalent. See src/mocks/tough-cookie-stub.ts.
+      'tough-cookie': fileURLToPath(new URL('./src/mocks/tough-cookie-stub.ts', import.meta.url)),
     },
   },
 })

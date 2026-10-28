@@ -1,0 +1,90 @@
+{
+  "date": "2026-10-28T21:23:34.898Z",
+  "base": "http://localhost:4173",
+  "results": [
+    {
+      "preset": "desktop",
+      "page": "leads (en)",
+      "runs": 3,
+      "performance": 96,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "fcpMs": 496,
+      "lcpMs": 584,
+      "tbtMs": 0,
+      "cls": 0.124,
+      "speedIndexMs": 513,
+      "transferKB": 313
+    },
+    {
+      "preset": "desktop",
+      "page": "leads (ar)",
+      "runs": 3,
+      "performance": 95,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "fcpMs": 548,
+      "lcpMs": 636,
+      "tbtMs": 0,
+      "cls": 0.133,
+      "speedIndexMs": 548,
+      "transferKB": 313
+    },
+    {
+      "preset": "desktop",
+      "page": "lead drawer + AI (en)",
+      "runs": 3,
+      "performance": 86,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "fcpMs": 1402,
+      "lcpMs": 1897,
+      "tbtMs": 0,
+      "cls": 0.05,
+      "speedIndexMs": 1402,
+      "transferKB": 313
+    },
+    {
+      "preset": "mobile",
+      "page": "leads (en)",
+      "runs": 3,
+      "performance": 93,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "fcpMs": 2280,
+      "lcpMs": 2752,
+      "tbtMs": 31,
+      "cls": 0.001,
+      "speedIndexMs": 2280,
+      "transferKB": 313
+    },
+    {
+      "preset": "mobile",
+      "page": "leads (ar)",
+      "runs": 3,
+      "performance": 92,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "fcpMs": 2433,
+      "lcpMs": 2898,
+      "tbtMs": 32,
+      "cls": 0,
+      "speedIndexMs": 2433,
+      "transferKB": 313
+    },
+    {
+      "preset": "mobile",
+      "page": "lead drawer + AI (en)",
+      "runs": 3,
+      "performance": 81,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "fcpMs": 3227,
+      "lcpMs": 3858,
+      "tbtMs": 24,
+      "cls": 0.066,
+      "speedIndexMs": 3227,
+      "transferKB": 313
+    }
+  ]
+}

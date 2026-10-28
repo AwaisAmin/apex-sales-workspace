@@ -13,6 +13,8 @@
     "check": "npm run typecheck && npm run lint && npm run format:check && npm run audit:contrast && npm test",
     "preview": "vite preview",
     "audit:contrast": "node scripts/contrast.mjs",
+    "audit:lighthouse": "node scripts/lighthouse.mjs http://localhost:4173 3 app-only && node scripts/lighthouse.mjs http://localhost:4173 3 simulated",
+    "audit:interactions": "node scripts/perf-interactions.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",

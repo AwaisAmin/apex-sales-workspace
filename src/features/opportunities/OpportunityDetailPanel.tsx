@@ -1,7 +1,8 @@
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { api } from '@/api/endpoints'
 import { qk } from '@/api/queryKeys'
+import type { Opportunity, Paginated } from '@/api/schemas'
 import { useUsers } from '@/api/useSession'
 import { ExternalEditButton } from '@/app/DemoControls'
 import { DetailDrawer, FieldList } from '@/components/DetailDrawer'
@@ -10,6 +11,7 @@ import { ActivityTimeline } from '@/features/assistant/ActivityTimeline'
 import { focusActivity } from '@/features/assistant/focusActivity'
 import { AssistantPanel } from '@/features/assistant/AssistantPanel'
 import { AuditHistory } from '@/features/assistant/AuditHistory'
+import { useSuggestions } from '@/features/assistant/hooks'
 import { useLocale } from '@/i18n/useLocale'
 import { formatCurrency, formatDate, formatNumber, formatPercent } from '@/lib/format'
 import { isOverdue, weightedValue } from './opportunity'
@@ -19,13 +21,22 @@ export function OpportunityDetailPanel({ oppId, onClose }: { oppId: string | nul
   const { t } = useTranslation()
   const { locale } = useLocale()
   const users = useUsers()
+  const client = useQueryClient()
   const id = oppId ?? ''
 
   const opp = useQuery({
     queryKey: qk.opportunities.detail(id),
     queryFn: ({ signal }) => api.getOpportunity(id, signal),
     enabled: !!oppId,
+    // Same as the lead drawer: start from the row already in the list cache (also unblocks the
+    // lead/activity queries below, which need opp.leadId, by one round-trip).
+    placeholderData: () =>
+      client
+        .getQueriesData<Paginated<Opportunity>>({ queryKey: [...qk.opportunities.all, 'list'] })
+        .flatMap(([, page]) => page?.items ?? [])
+        .find((o) => o.id === id),
   })
+  useSuggestions('opportunity', id, !!oppId)
   const leadId = opp.data?.leadId ?? ''
   // Evidence for opportunity suggestions comes from the related lead's activity.
   const lead = useQuery({

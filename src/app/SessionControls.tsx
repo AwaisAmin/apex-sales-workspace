@@ -33,7 +33,9 @@ export function RoleSwitcher() {
           // Permissions changed: drop cached data fetched under the previous identity.
           void client.invalidateQueries()
         }}
-        className="min-w-0"
+        // Fixed width: a native <select> sizes itself to its longest option, so it would grow when the
+        // user list arrives and push the whole page down (measured CLS 0.12 in Lighthouse before this).
+        className="w-72"
       >
         {users.data?.map((u) => (
           <option key={u.id} value={u.id}>

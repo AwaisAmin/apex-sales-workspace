@@ -6,10 +6,11 @@ import type { AiSuggestion, Lead, Opportunity } from '@/api/schemas'
 
 type Target = AiSuggestion['targetType']
 
-export function useSuggestions(targetType: Target, targetId: string) {
+export function useSuggestions(targetType: Target, targetId: string, enabled = true) {
   return useQuery({
     queryKey: qk.suggestions.for(targetType, targetId),
     queryFn: ({ signal }) => api.suggestions(targetType, targetId, signal),
+    enabled,
   })
 }
 

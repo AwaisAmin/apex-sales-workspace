@@ -54,21 +54,32 @@
     outline-offset: 2px;
   }
 
-  /* Tailwind v4 dropped the pointer cursor on buttons; restore it for every clickable control. */
+  /* Tailwind v4 dropped the pointer cursor on buttons; restore it for every clickable control.
+     (Labels wrapping checkboxes/radios set cursor-pointer themselves — a document-wide
+     `label:has(> input)` rule made every DOM change more expensive to restyle.) */
   button:not([aria-disabled='true']),
   [role='button']:not([aria-disabled='true']),
   select,
-  summary,
-  label:has(> input[type='checkbox']),
-  label:has(> input[type='radio']) {
+  summary {
     cursor: pointer;
   }
   [aria-disabled='true'] {
     cursor: not-allowed;
   }
 
-  /* A modal <dialog> doesn't stop the page behind it from scrolling; this does. */
-  html:has(dialog[open]) {
+  /*
+   * Reserve the scrollbar's space up front. Otherwise, on desktop (non-overlay scrollbars), the page
+   * gets ~15 px narrower the moment data makes it scrollable — or wider when a modal hides overflow —
+   * and the centred <main> jumps sideways. Lighthouse measured that as CLS 0.12 on the leads page.
+   */
+  html {
+    scrollbar-gutter: stable;
+  }
+
+  /* A modal <dialog> doesn't stop the page behind it from scrolling; this does. The attribute is set
+     by the modal layer stack (toast-store.ts) instead of `html:has(dialog[open])`: a :has() on the root
+     forces style re-checks of the whole document on every DOM change (measured: −22% drawer-open time at 4× CPU). */
+  html[data-modal-open] {
     overflow: hidden;
   }
 

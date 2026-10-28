@@ -25,7 +25,7 @@ export function ChipGroup<V extends string>({ legend, options, selected, label, 
             <label
               key={v}
               className={cn(
-                'inline-flex h-10 items-center gap-2 rounded-md border px-3 text-sm',
+                'inline-flex h-10 cursor-pointer items-center gap-2 rounded-md border px-3 text-sm',
                 'has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-focus',
                 checked
                   ? 'border-primary bg-primary text-primary-fg'
