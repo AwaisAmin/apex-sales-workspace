@@ -1,0 +1,72 @@
+/*
+ * Design tokens — single source of truth for color, radius, spacing and motion.
+ * Components never use raw hex values; they reference these via Tailwind
+ * utilities (bg-surface, text-fg-muted, ...) mapped in index.css.
+ *
+ * Colors are semantic (what it's for), not literal (what it looks like),
+ * so dark mode and future re-branding only touch this file.
+ */
+:root {
+  --color-bg: #f6f7f9;
+  --color-surface: #ffffff;
+  --color-surface-muted: #eef0f3;
+  --color-border: #d9dde3;
+  --color-fg: #14181f;
+  --color-fg-muted: #525b6a; /* 7.0:1 on surface (AA for small text) */
+  --color-primary: #0b6e4f; /* 6.1:1 on white */
+  --color-primary-hover: #095a41;
+  --color-primary-fg: #ffffff;
+  --color-focus: #2563eb;
+  --color-success: #15803d;
+  --color-success-bg: #dcfce7;
+  --color-warning: #a16207;
+  --color-warning-bg: #fef9c3;
+  --color-danger: #b91c1c;
+  --color-danger-bg: #fee2e2;
+  --color-info: #1d4ed8;
+  --color-info-bg: #dbeafe;
+  /* AI-generated content gets its own hue so users can always tell it apart */
+  --color-ai: #6d28d9;
+  --color-ai-bg: #f3e8ff;
+
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+
+  --shadow-card: 0 1px 2px rgb(16 24 40 / 0.06), 0 1px 3px rgb(16 24 40 / 0.1);
+  --duration-fast: 120ms;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --color-bg: #0e1116;
+    --color-surface: #161b22;
+    --color-surface-muted: #1f2630;
+    --color-border: #2f3742;
+    --color-fg: #e6e9ee;
+    --color-fg-muted: #a3acb9;
+    --color-primary: #34d399;
+    --color-primary-hover: #6ee7b7;
+    --color-primary-fg: #04140e;
+    --color-focus: #60a5fa;
+    --color-success: #4ade80;
+    --color-success-bg: #12301e;
+    --color-warning: #facc15;
+    --color-warning-bg: #3a2f0b;
+    --color-danger: #f87171;
+    --color-danger-bg: #3b1414;
+    --color-info: #93c5fd;
+    --color-info-bg: #172554;
+    --color-ai: #c4b5fd;
+    --color-ai-bg: #2e1a4f;
+    color-scheme: dark;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+  }
+}

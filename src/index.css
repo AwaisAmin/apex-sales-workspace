@@ -1,1 +1,57 @@
-﻿
+﻿@import 'tailwindcss';
+@import './styles/tokens.css';
+
+/* Map design tokens to Tailwind utilities (bg-surface, text-fg-muted, border-border, ...). */
+@theme inline {
+  --color-bg: var(--color-bg);
+  --color-surface: var(--color-surface);
+  --color-surface-muted: var(--color-surface-muted);
+  --color-border: var(--color-border);
+  --color-fg: var(--color-fg);
+  --color-fg-muted: var(--color-fg-muted);
+  --color-primary: var(--color-primary);
+  --color-primary-hover: var(--color-primary-hover);
+  --color-primary-fg: var(--color-primary-fg);
+  --color-focus: var(--color-focus);
+  --color-success: var(--color-success);
+  --color-success-bg: var(--color-success-bg);
+  --color-warning: var(--color-warning);
+  --color-warning-bg: var(--color-warning-bg);
+  --color-danger: var(--color-danger);
+  --color-danger-bg: var(--color-danger-bg);
+  --color-info: var(--color-info);
+  --color-info-bg: var(--color-info-bg);
+  --color-ai: var(--color-ai);
+  --color-ai-bg: var(--color-ai-bg);
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --shadow-card: var(--shadow-card);
+
+  --font-sans: 'Inter Variable', system-ui, sans-serif;
+  --font-arabic: 'IBM Plex Sans Arabic', 'Inter Variable', system-ui, sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-bg text-fg font-sans antialiased;
+  }
+
+  /* Arabic script needs its own typeface and slightly taller line-height. */
+  :lang(ar) body,
+  body:lang(ar) {
+    @apply font-arabic leading-relaxed;
+  }
+
+  /* One visible focus style everywhere — keyboard users must always see where they are. */
+  :focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  /* Tabular figures keep numeric columns aligned in tables. */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
