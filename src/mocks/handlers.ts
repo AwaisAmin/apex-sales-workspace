@@ -106,6 +106,8 @@ export function createHandlers(db: Db) {
   return [
     http.get(`${API}/me`, endpoint(db, 'read', ({ user }) => HttpResponse.json(user))),
 
+    http.get(`${API}/users`, endpoint(db, 'read', () => HttpResponse.json(db.users()))),
+
     http.get(
       `${API}/leads`,
       endpoint(db, 'read', ({ request }) => {
@@ -140,6 +142,11 @@ export function createHandlers(db: Db) {
         if (!q.success) return validationError(q.error.issues)
         return HttpResponse.json(db.listOpportunities(q.data, lang(url)))
       }),
+    ),
+
+    http.get(
+      `${API}/opportunities/:id`,
+      endpoint(db, 'read', ({ params }) => HttpResponse.json(db.getOpportunity(id(params)))),
     ),
 
     http.patch(

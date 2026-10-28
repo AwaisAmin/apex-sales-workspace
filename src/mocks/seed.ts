@@ -261,9 +261,12 @@ export function createSeed(seed = 20261029, leadCount = 120): Seed {
     }
 
     // Suggestion: "contacted" lead with strong buying signals → propose qualifying it.
-    const buyingSignal = leadActivities.find((a) => a.type === 'meeting' || a.summary.en.includes('quotation'))
-    if (status === 'contacted' && buyingSignal) {
+    // Evidence must *support* the suggestion: only buying signals are cited. Counter-signals are
+    // surfaced as limitations and lower the confidence, instead of being listed as "evidence".
+    const supporting = leadActivities.filter((a) => a.type === 'meeting' || a.summary.en.includes('quotation'))
+    if (status === 'contacted' && supporting.length > 0) {
       const noReply = leadActivities.some((a) => a.summary.en.startsWith('No reply'))
+      const competitor = leadActivities.some((a) => a.summary.en.startsWith('Competitor'))
       suggestions.push({
         id: `sug-${id}`,
         targetType: 'lead',
@@ -274,7 +277,7 @@ export function createSeed(seed = 20261029, leadCount = 120): Seed {
           ar: 'يُظهر النشاط الأخير تأكيد الميزانية أو طلب عرض سعر، وهو ما يطابق معايير التأهيل.',
         },
         // Conflicting signals lower confidence instead of being hidden.
-        confidence: noReply ? 0.48 : 0.82,
+        confidence: noReply && competitor ? 0.4 : noReply ? 0.48 : competitor ? 0.62 : 0.82,
         limitations: [
           {
             en: 'Based only on logged activities; offline conversations are not visible to the assistant.',
@@ -288,8 +291,16 @@ export function createSeed(seed = 20261029, leadCount = 120): Seed {
                 },
               ]
             : []),
+          ...(competitor
+            ? [
+                {
+                  en: 'Conflicting signal: the customer is evaluating a competitor on price.',
+                  ar: 'إشارة متعارضة: العميل يقيّم منافسًا من حيث السعر.',
+                },
+              ]
+            : []),
         ],
-        evidence: leadActivities.map((a) => ({ activityId: a.id, excerpt: a.summary })),
+        evidence: supporting.map((a) => ({ activityId: a.id, excerpt: a.summary })),
         change: { field: 'leadStatus', from: 'contacted', to: 'qualified' },
         model: 'apex-sales-assist-mock-v1',
         generatedAt: daysAgo(0),

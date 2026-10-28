@@ -8,6 +8,11 @@ export function useSession() {
   return useSyncExternalStore(session.subscribe, session.get)
 }
 
+/** Directory of users (for names in audit history and the role switcher). */
+export function useUsers() {
+  return useQuery({ queryKey: qk.users, queryFn: ({ signal }) => api.users(signal), staleTime: Infinity })
+}
+
 /** The signed-in user (with role). Keyed by user id, so switching roles refetches. */
 export function useCurrentUser() {
   const { userId } = useSession()

@@ -22,6 +22,8 @@ const OpportunityPage = paginated(Opportunity)
 export const api = {
   me: (signal?: AbortSignal) => request('/me', { schema: User, signal }),
 
+  users: (signal?: AbortSignal) => request('/users', { schema: z.array(User), signal }),
+
   listLeads: (q: LeadQuery, lang: Locale, signal?: AbortSignal) =>
     request('/leads', { query: { ...q, lang }, schema: LeadPage, signal }),
 
@@ -35,6 +37,9 @@ export const api = {
 
   listOpportunities: (q: OpportunityQuery, lang: Locale, signal?: AbortSignal) =>
     request('/opportunities', { query: { ...q, lang }, schema: OpportunityPage, signal }),
+
+  getOpportunity: (id: string, signal?: AbortSignal) =>
+    request(`/opportunities/${id}`, { schema: Opportunity, signal }),
 
   updateOpportunity: (id: string, input: UpdateOpportunityInput) =>
     request(`/opportunities/${id}`, { method: 'PATCH', body: input, schema: Opportunity }),

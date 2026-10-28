@@ -7,6 +7,7 @@ import type { LeadQuery, OpportunityQuery } from './schemas'
  */
 export const qk = {
   me: (userId: string | null) => ['me', userId] as const,
+  users: ['users'] as const,
   leads: {
     all: ['leads'] as const,
     list: (q: LeadQuery, lang: Locale) => ['leads', 'list', q, lang] as const,
@@ -16,6 +17,7 @@ export const qk = {
   opportunities: {
     all: ['opportunities'] as const,
     list: (q: OpportunityQuery, lang: Locale) => ['opportunities', 'list', q, lang] as const,
+    detail: (id: string) => ['opportunities', 'detail', id] as const,
   },
   suggestions: {
     all: ['suggestions'] as const,

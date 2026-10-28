@@ -63,6 +63,11 @@
     cursor: not-allowed;
   }
 
+  /* A modal <dialog> doesn't stop the page behind it from scrolling; this does. */
+  html:has(dialog[open]) {
+    overflow: hidden;
+  }
+
   /* Tabular figures keep numeric columns aligned in tables. */
   .tabular {
     font-variant-numeric: tabular-nums;

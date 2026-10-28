@@ -4,6 +4,7 @@ import { LeadQuery, LeadSortField } from '@/api/schemas'
 import { useUrlParam, useUrlQuery } from '@/app/useUrlQuery'
 import { DataPanel } from '@/components/DataPanel'
 import { MobileSort } from '@/components/ui/MobileSort'
+import { LeadDetailPanel } from './LeadDetailPanel'
 import { LeadFilters } from './LeadFilters'
 import { LeadsList } from './LeadsList'
 import { useLeads } from './useLeads'
@@ -60,6 +61,8 @@ export function LeadsView() {
           />
         )}
       </DataPanel>
+
+      <LeadDetailPanel leadId={selectedId} onClose={() => setSelectedId(null)} />
     </section>
   )
 }

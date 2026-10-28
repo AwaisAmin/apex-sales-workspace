@@ -1,10 +1,10 @@
 import type { MouseEvent, ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useCurrentUser } from '@/api/useSession'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher'
-import { useLocale } from '@/i18n/useLocale'
+import { Toaster } from '@/components/ui/Toast'
 import { cn } from '@/lib/cn'
 import { navigate, ROUTES, useLocation } from './router'
+import { RoleSwitcher, SessionExpiredBanner } from './SessionControls'
 
 function NavLink({ to, children }: { to: string; children: ReactNode }) {
   const { pathname } = useLocation()
@@ -31,8 +31,6 @@ function NavLink({ to, children }: { to: string; children: ReactNode }) {
 
 export function AppShell({ children }: { children: ReactNode }) {
   const { t } = useTranslation()
-  const { locale } = useLocale()
-  const me = useCurrentUser()
 
   return (
     <div className="min-h-dvh">
@@ -51,16 +49,16 @@ export function AppShell({ children }: { children: ReactNode }) {
             <NavLink to={ROUTES.opportunities}>{t('nav.opportunities')}</NavLink>
           </nav>
           <div className="ms-auto flex items-center gap-3">
-            {me.data && (
-              <span className="hidden text-sm text-fg-muted sm:inline">{me.data.name[locale]}</span>
-            )}
+            <RoleSwitcher />
             <LanguageSwitcher />
           </div>
         </div>
+        <SessionExpiredBanner />
       </header>
       <main id="main" tabIndex={-1} className="mx-auto max-w-7xl px-4 py-6 focus:outline-none md:px-6">
         {children}
       </main>
+      <Toaster />
     </div>
   )
 }

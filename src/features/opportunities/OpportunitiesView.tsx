@@ -11,6 +11,7 @@ import { MobileSort } from '@/components/ui/MobileSort'
 import { SearchField } from '@/components/ui/SearchField'
 import { usePagedQuery } from '@/lib/usePagedQuery'
 import { OpportunitiesList } from './OpportunitiesList'
+import { OpportunityDetailPanel } from './OpportunityDetailPanel'
 
 const ARRAY_KEYS = ['stage']
 const KEEP_KEYS = ['opp']
@@ -82,6 +83,8 @@ export function OpportunitiesView() {
           />
         )}
       </DataPanel>
+
+      <OpportunityDetailPanel oppId={selectedId} onClose={() => setSelectedId(null)} />
     </section>
   )
 }
