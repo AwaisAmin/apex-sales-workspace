@@ -9,8 +9,16 @@ import './index.css'
 import './i18n/config'
 import App from './App.tsx'
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+async function bootstrap() {
+  // Loaded dynamically so the mock layer is a separate chunk, not part of the app bundle.
+  const { startMockApi } = await import('./mocks/browser')
+  await startMockApi()
+
+  createRoot(document.getElementById('root')!).render(
+    <StrictMode>
+      <App />
+    </StrictMode>,
+  )
+}
+
+void bootstrap()

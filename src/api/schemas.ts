@@ -155,6 +155,19 @@ export const AiSuggestion = z.object({
 })
 export type AiSuggestion = z.infer<typeof AiSuggestion>
 
+/** Every write is logged; AI-originated writes carry the suggestion id and the approving user. */
+export const AuditEntry = z.object({
+  id: z.string(),
+  at: IsoDate,
+  actorId: z.string(),
+  targetType: z.enum(['lead', 'opportunity']),
+  targetId: z.string(),
+  action: z.enum(['update', 'suggestion_applied', 'suggestion_dismissed']),
+  suggestionId: z.string().nullable(),
+  summary: z.string(),
+})
+export type AuditEntry = z.infer<typeof AuditEntry>
+
 // ---------- Lists, queries, errors ----------
 
 export const SortDir = z.enum(['asc', 'desc'])
