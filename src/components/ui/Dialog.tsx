@@ -48,6 +48,16 @@ export function Dialog({
   const [nativeOpen, setNativeOpen] = useState(false)
   /** True from showModal() until focus has been restored after close (see the restore effect below). */
   const pendingRestore = useRef(false)
+  // User-initiated closes (Escape, backdrop) are reported to React *synchronously*, from `cancel`/`click`.
+  // The native `close` event only arrives in a later task; if the user re-opens in that gap (Escape then
+  // Enter), waiting for it would let the late event close the dialog again and swallow the Enter.
+  // This flag marks a close that React already knows about, so the late event is ignored.
+  const reportedRef = useRef(false)
+  const reportClosed = () => {
+    reportedRef.current = true
+    setNativeOpen(false)
+    onClose()
+  }
 
   useEffect(() => {
     const dialog = ref.current
@@ -57,6 +67,7 @@ export function Dialog({
       dialog.showModal()
       // Set with showModal() itself (not on `open` changes): a batched close→reopen keeps `open` true.
       pendingRestore.current = true
+      reportedRef.current = false
       pushModalLayer(layerId)
       setNativeOpen(true)
       initialFocus?.current?.focus()
@@ -92,9 +103,13 @@ export function Dialog({
         if (lost && !openerRef.current?.isConnected) document.getElementById('main')?.focus()
       })
     }
-    dialog.addEventListener('close', restore)
+    // A late `close` arriving after the dialog was already re-opened is stale — ignore it.
+    const onNativeClose = () => {
+      if (!dialog.open) restore()
+    }
+    dialog.addEventListener('close', onNativeClose)
     return () => {
-      dialog.removeEventListener('close', restore)
+      dialog.removeEventListener('close', onNativeClose)
       restore()
     }
   }, [layerId])
@@ -106,19 +121,27 @@ export function Dialog({
       aria-describedby={describedBy}
       // React propagates synthetic cancel/close events to *ancestor* components, so a confirm dialog
       // nested inside a drawer would also close the drawer. Only react to events from this dialog.
-      // Escape fires `cancel`; block it while not dismissible, otherwise let `close` run.
+      // Escape fires `cancel` (synchronously); block it while not dismissible, otherwise report the close now.
       onCancel={(e) => {
         if (e.target !== e.currentTarget) return
-        if (!dismissible) e.preventDefault()
+        if (!dismissible) return e.preventDefault()
+        reportClosed()
       }}
       onClose={(e) => {
         if (e.target !== e.currentTarget) return
+        if (e.currentTarget.open) return // stale: re-opened before this event arrived
+        if (reportedRef.current) {
+          reportedRef.current = false
+          return
+        }
         setNativeOpen(false)
         onClose()
       }}
       // A click whose target is the <dialog> itself landed on the backdrop.
       onClick={(e) => {
-        if (dismissible && e.target === e.currentTarget) e.currentTarget.close()
+        if (!dismissible || e.target !== e.currentTarget) return
+        reportClosed()
+        e.currentTarget.close()
       }}
       className={cn(
         'bg-surface text-fg shadow-xl backdrop:bg-black/50',

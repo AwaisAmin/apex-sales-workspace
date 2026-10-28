@@ -1,3 +1,3 @@
-  ok 14 [desktop] › tests\e2e\journey-resilience.spec.ts:17:1 › the UI stays truthful through outages, failed saves and conflicts
-  ok 28 [mobile] › tests\e2e\journey-resilience.spec.ts:17:1 › the UI stays truthful through outages, failed saves and conflicts
-  28 passed
+  ok 15 [desktop] › tests\e2e\journey-resilience.spec.ts:17:1 › the UI stays truthful through outages, failed saves and conflicts
+  ok 29 [mobile] › tests\e2e\journey-resilience.spec.ts:17:1 › the UI stays truthful through outages, failed saves and conflicts
+  30 passed

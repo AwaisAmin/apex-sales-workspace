@@ -16,6 +16,8 @@ dist-ssr
 coverage
 test-results
 playwright-report
+# Stray Lighthouse HTML reports (the audit script writes JSON to docs/evidence instead)
+*.report.html
 
 # Editor directories and files
 .vscode/*

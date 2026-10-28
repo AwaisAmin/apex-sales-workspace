@@ -1,0 +1,6 @@
+# Keep LF in the working tree on every OS. Without this, Windows checkouts with core.autocrlf=true
+# get CRLF files and `npm run check` (Prettier, endOfLine: lf) fails on a fresh clone.
+* text=auto eol=lf
+
+*.png binary
+*.woff2 binary

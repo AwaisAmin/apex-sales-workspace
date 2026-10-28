@@ -31,7 +31,7 @@ Breadth (more entities, dashboards, editing forms) was deliberately traded for d
 | **Tailwind v4 + semantic `light-dark()` tokens**                         | CSS-in-JS, separate dark stylesheet   | Logical properties make RTL automatic; one line per colour for both themes                                        | `light-dark()` needs 2024+ browsers                                        |
 | **i18next with typed TS message objects**                                | FormatJS / ICU                        | Missing Arabic keys fail the build; native `Intl` covers formatting at 0 KB                                       | ~17 KB gzip; Arabic plurals handled with count-neutral copy, not ICU rules |
 | **Tiny custom router**                                                   | React Router / TanStack Router        | Two routes; URL state was the real need                                                                           | No nested routes or loaders; revisit as routes grow                        |
-| **Tests against real components + real mock pipeline**                   | Heavy mocking of hooks                | Tests break when behaviour breaks, not when internals change; safety tests validated by mutation                  | Slightly slower tests (still ≈ 3 s for 52)                                 |
+| **Tests against real components + real mock pipeline**                   | Heavy mocking of hooks                | Tests break when behaviour breaks, not when internals change; safety tests validated by mutation                  | Slightly slower tests (still ≈ 3 s for 53)                                 |
 
 ## 3. Assumptions
 

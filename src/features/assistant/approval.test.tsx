@@ -67,6 +67,26 @@ describe('AI suggestion → human approval gate', () => {
     expect(await screen.findByRole('dialog', { name: /apply ai suggestion/i })).toHaveAttribute('open')
   })
 
+  it('a late native "close" event does not swallow a re-open that happened before it arrived', async () => {
+    const { user } = open('lead-001')
+    const review = await screen.findByRole('button', { name: /review & apply/i })
+    await user.click(review)
+    const approval = (await screen.findByRole('dialog', { name: /apply ai suggestion/i })) as HTMLDialogElement
+
+    // Real browser order for Escape: `cancel` fires, the dialog closes at once, but `close` is queued
+    // for a later task. The user presses Enter on "Review & apply…" in that gap.
+    act(() => {
+      approval.dispatchEvent(new Event('cancel', { cancelable: true }))
+    })
+    approval.removeAttribute('open')
+    act(() => review.click())
+    act(() => {
+      approval.dispatchEvent(new Event('close')) // the late event
+    })
+
+    await waitFor(() => expect(screen.getByRole('dialog', { name: /apply ai suggestion/i })).toHaveAttribute('open'))
+  })
+
   it('announces the outcome from inside the open drawer (not from the inert page behind it)', async () => {
     const { user } = open('lead-001')
     await user.click(await screen.findByRole('button', { name: /review & apply/i }))

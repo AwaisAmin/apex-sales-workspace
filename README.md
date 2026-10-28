@@ -96,7 +96,7 @@ The same conditions can be set from the URL: `?latency=slow`, `?latency=none`, `
 | Typed API boundary, latency, 401/403/422, retry                 | [`api/client.ts`](src/api/client.ts) (Zod-validated, single `ApiError` type), [`app/queryClient.ts`](src/app/queryClient.ts) (retry policy), [`mocks`](src/mocks) (latency, auth, roles, validation, fault injection)      |
 | Safe optimistic and pessimistic updates                         | Optimistic + rollback: [`useUpdateLeadStatus`](src/features/leads/useUpdateLeadStatus.ts). Pessimistic for AI: [`useApplySuggestion`](src/features/assistant/hooks.ts). Version-based 409 conflict detection on the server |
 | Reusable components, design tokens, state management            | [`components/ui`](src/components/ui), [`styles/tokens.css`](src/styles/tokens.css) (`light-dark()` semantic tokens); state model in [ARCHITECTURE.md](docs/ARCHITECTURE.md#state-management)                               |
-| Unit/component + E2E tests, a11y audit                          | 52 Vitest tests, 28 Playwright tests (2 user journeys + axe matrix) — see [Testing](#testing) and [`docs/evidence`](docs/evidence)                                                                                         |
+| Unit/component + E2E tests, a11y audit                          | 53 Vitest tests, 30 Playwright tests (2 user journeys + axe matrix + dialog smoke test) — see [Testing](#testing) and [`docs/evidence`](docs/evidence)                                                                     |
 
 ## Documentation
 
@@ -113,20 +113,21 @@ The same conditions can be set from the URL: `?latency=slow`, `?latency=none`, `
 ## Testing
 
 ```bash
-npm run check        # typecheck, lint, format, contrast, 52 unit/component tests
-npm run test:e2e     # 28 E2E tests: 14 per project (desktop 1440×900, mobile Pixel 7)
+npm run check        # typecheck, lint, format, contrast, 53 unit/component tests
+npm run test:e2e     # 30 E2E tests: 15 per project (desktop 1440×900, mobile Pixel 7)
 ```
 
-| Suite                | Count | Highlights                                                                                                                                                |
-| -------------------- | ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| AI approval gate     | 8     | cancel writes nothing; approve writes exactly once + audit; low-confidence acknowledgement; viewer blocked; stale suggestion blocked; reopen after Escape |
-| Optimistic updates   | 4     | UI updates before the server answers; immediate rollback on 500 and 409; focus kept                                                                       |
-| API boundary & retry | 8     | contract validation; typed errors; reads retry 3×, 4xx never, writes never                                                                                |
-| Policy & domain      | 24    | confidence bands, fail-closed role check, formatting (Arabic digits, Gregorian), backend rules                                                            |
-| Views, i18n, theme   | 8     | URL-synced filters, `aria-sort`, empty/error/recovery, ar/en key parity, RTL switch, theme                                                                |
-| **E2E journey 1**    | 2     | Arabic, keyboard only: filter → open lead → check evidence → back out → approve → verify audit → axe scan                                                 |
-| **E2E journey 2**    | 2     | outage → retries → recovery; failed save → rollback; concurrent edit → 409 → rollback → retry succeeds                                                    |
-| E2E accessibility    | 24    | axe (WCAG 2.2 AA + best practice) on list, opportunities and drawer × ar/en × light/dark × desktop/mobile                                                 |
+| Suite                | Count | Highlights                                                                                                                                                      |
+| -------------------- | ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| AI approval gate     | 9     | cancel writes nothing; approve writes exactly once + audit; low-confidence acknowledgement; viewer blocked; stale suggestion blocked; reopen races after Escape |
+| Optimistic updates   | 4     | UI updates before the server answers; immediate rollback on 500 and 409; focus kept                                                                             |
+| API boundary & retry | 8     | contract validation; typed errors; reads retry 3×, 4xx never, writes never                                                                                      |
+| Policy & domain      | 24    | confidence bands, fail-closed role check, formatting (Arabic digits, Gregorian), backend rules                                                                  |
+| Views, i18n, theme   | 8     | URL-synced filters, `aria-sort`, empty/error/recovery, ar/en key parity, RTL switch, theme                                                                      |
+| **E2E journey 1**    | 2     | Arabic, keyboard only: filter → open lead → check evidence → back out → approve → verify audit → axe scan                                                       |
+| **E2E journey 2**    | 2     | outage → retries → recovery; failed save → rollback; concurrent edit → 409 → rollback → retry succeeds                                                          |
+| E2E dialog re-open   | 2     | rapid Escape → Enter re-opens the approval dialog (smoke test; the race is covered deterministically in unit tests)                                             |
+| E2E accessibility    | 24    | axe (WCAG 2.2 AA + best practice) on list, opportunities and drawer × ar/en × light/dark × desktop/mobile                                                       |
 
 The tests run against the **same MSW handlers** as the app, so they exercise the real request pipeline (auth, roles,
 validation, version checks), not stubs. Key safety tests were verified by deliberately breaking the code and confirming
