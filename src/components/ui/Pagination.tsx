@@ -4,6 +4,7 @@ import { useLocale } from '@/i18n/useLocale'
 import { formatNumber } from '@/lib/format'
 import { Button } from './Button'
 import { Chevron } from './icons'
+import { Select } from './Select'
 
 const PAGE_SIZES = [10, 20, 50] as const
 
@@ -34,18 +35,18 @@ export function Pagination({ page, pageSize, total, onPageChange, onPageSizeChan
         <label htmlFor={sizeId} className="text-fg-muted">
           {t('pagination.perPage')}
         </label>
-        <select
+        <Select
           id={sizeId}
+          size="sm"
           value={pageSize}
           onChange={(e) => onPageSizeChange(Number(e.target.value))}
-          className="h-8 rounded-md border border-border bg-surface px-2"
         >
           {PAGE_SIZES.map((s) => (
             <option key={s} value={s}>
               {n(s)}
             </option>
           ))}
-        </select>
+        </Select>
         <span className="tabular">{t('pagination.pageOf', { page: n(page), pages: n(pages) })}</span>
         <div className="flex gap-1">
           <Button size="sm" aria-label={t('pagination.previous')} disabled={page <= 1} onClick={() => onPageChange(page - 1)}>

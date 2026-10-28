@@ -39,14 +39,14 @@ export function AppShell({ children }: { children: ReactNode }) {
       {/* First focusable element: lets keyboard users jump past the header */}
       <a
         href="#main"
-        className="sr-only focus:not-sr-only focus:absolute focus:start-2 focus:top-2 focus:z-50 focus:rounded-md focus:bg-surface focus:px-3 focus:py-2 focus:shadow-card"
+        className="sr-only focus:not-sr-only focus:absolute focus:inset-s-2 focus:top-2 focus:z-50 focus:rounded-md focus:bg-surface focus:px-3 focus:py-2 focus:shadow-card"
       >
         {t('app.skipToContent')}
       </a>
       <header className="sticky top-0 z-30 border-b border-border bg-surface/95 backdrop-blur">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-6 gap-y-2 px-4 py-2.5 md:px-6">
           <p className="text-base font-semibold">{t('app.name')}</p>
-          <nav aria-label={t('app.mainNav')} className="order-last flex gap-1 md:order-none">
+          <nav aria-label={t('app.mainNav')} className="order-last flex gap-1 md:order-0">
             <NavLink to={ROUTES.leads}>{t('nav.leads')}</NavLink>
             <NavLink to={ROUTES.opportunities}>{t('nav.opportunities')}</NavLink>
           </nav>

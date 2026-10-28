@@ -4,6 +4,7 @@ import { LeadQuery, LeadSortField } from '@/api/schemas'
 import { useUrlParam, useUrlQuery } from '@/app/useUrlQuery'
 import { Button } from '@/components/ui/Button'
 import { Pagination } from '@/components/ui/Pagination'
+import { Select } from '@/components/ui/Select'
 import { EmptyState, ErrorState } from '@/components/ui/States'
 import { Spinner } from '@/components/ui/Spinner'
 import { LeadFilters } from './LeadFilters'
@@ -41,14 +42,15 @@ export function LeadsView() {
         <label htmlFor={sortId} className="text-sm text-fg-muted">
           {t('sort.label')}
         </label>
-        <select
+        <Select
           id={sortId}
+          size="sm"
           value={`${query.sort}:${query.dir}`}
           onChange={(e) => {
             const [sort, dir] = e.target.value.split(':') as [LeadQuery['sort'], LeadQuery['dir']]
             setQuery({ sort, dir })
           }}
-          className="h-9 flex-1 rounded-md border border-border bg-surface px-2 text-sm"
+          className="flex-1"
         >
           {LeadSortField.options.flatMap((f) =>
             (['desc', 'asc'] as const).map((d) => (
@@ -57,7 +59,7 @@ export function LeadsView() {
               </option>
             )),
           )}
-        </select>
+        </Select>
       </div>
 
       <div
@@ -66,7 +68,7 @@ export function LeadsView() {
       >
         {/* Background refresh indicator: data stays visible, so no layout shift */}
         {leads.isPlaceholderData && (
-          <div className="absolute end-3 top-2 z-10 flex items-center gap-1.5 rounded-sm bg-surface px-2 py-1 text-xs text-fg-muted shadow-card">
+          <div className="absolute inset-e-3 top-2 z-10 flex items-center gap-1.5 rounded-sm bg-surface px-2 py-1 text-xs text-fg-muted shadow-card">
             <Spinner className="size-3.5" />
             <span role="status">{t('common.updating')}</span>
           </div>

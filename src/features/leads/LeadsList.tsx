@@ -1,4 +1,4 @@
-import type { MouseEvent } from 'react'
+﻿import type { MouseEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { Lead, LeadQuery, LeadSortField } from '@/api/schemas'
 import { SortableHeader } from '@/components/ui/SortableHeader'
@@ -16,7 +16,7 @@ interface LeadsListProps {
   onSelect: (id: string) => void
 }
 
-/** Opens the lead in the side panel; still a real link, so Ctrl/⌘-click or "open in new tab" work. */
+/** Opens the lead in the side panel; still a real link, so Ctrl/âŒ˜-click or "open in new tab" work. */
 function LeadLink({ lead, onSelect, className }: { lead: Lead; onSelect: (id: string) => void; className?: string }) {
   const { locale } = useLocale()
   const href = `?lead=${lead.id}`
@@ -50,6 +50,11 @@ export function LeadsList({ leads, query, selectedId, onSort, onSelect }: LeadsL
     lastContactedAt: t('leads.columns.lastContactedAt'),
   }
   const sortProps = { sort: query.sort, dir: query.dir, onSort }
+  const rowClick = (e: MouseEvent, id: string) => {
+    // Let the link handle its own clicks (incl. Ctrl/âŒ˜-click), and don't hijack text selection.
+    if ((e.target as HTMLElement).closest('a, button') || window.getSelection()?.toString()) return
+    onSelect(id)
+  }
   const skeletonRows = Array.from({ length: Math.min(query.pageSize, 10) }, (_, i) => i)
 
   return (
@@ -79,7 +84,10 @@ export function LeadsList({ leads, query, selectedId, onSort, onSelect }: LeadsL
                   <tr
                     key={lead.id}
                     aria-current={lead.id === selectedId ? 'true' : undefined}
-                    className="border-b border-border last:border-0 hover:bg-surface-muted/50 aria-[current=true]:bg-primary/10"
+                    // Mouse convenience: the whole row opens the lead. Keyboard/screen-reader users use the
+                    // company link, so the row itself is not a second tab stop.
+                    onClick={(e) => rowClick(e, lead.id)}
+                    className="cursor-pointer border-b border-border last:border-0 hover:bg-surface-muted/50 aria-current:bg-primary/10"
                   >
                     <td className="px-3 py-2.5">
                       <LeadLink lead={lead} onSelect={onSelect} />
@@ -117,14 +125,15 @@ export function LeadsList({ leads, query, selectedId, onSort, onSelect }: LeadsL
               <li
                 key={lead.id}
                 aria-current={lead.id === selectedId ? 'true' : undefined}
-                className="flex flex-col gap-1.5 p-4 aria-[current=true]:bg-primary/10"
+                onClick={(e) => rowClick(e, lead.id)}
+                className="flex cursor-pointer flex-col gap-1.5 p-4 active:bg-surface-muted aria-current:bg-primary/10"
               >
                 <div className="flex items-start justify-between gap-2">
                   <LeadLink lead={lead} onSelect={onSelect} />
                   <LeadStatusBadge status={lead.status} />
                 </div>
                 <p className="text-sm text-fg-muted">
-                  {lead.contactName[locale]} · {t(`city.${lead.city}`)}
+                  {lead.contactName[locale]} Â· {t(`city.${lead.city}`)}
                 </p>
                 <dl className="grid grid-cols-2 gap-x-4 text-sm">
                   <dt className="text-fg-muted">{col('estimatedValue')}</dt>

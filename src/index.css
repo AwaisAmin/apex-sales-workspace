@@ -50,6 +50,19 @@
     outline-offset: 2px;
   }
 
+  /* Tailwind v4 dropped the pointer cursor on buttons; restore it for every clickable control. */
+  button:not([aria-disabled='true']),
+  [role='button']:not([aria-disabled='true']),
+  select,
+  summary,
+  label:has(> input[type='checkbox']),
+  label:has(> input[type='radio']) {
+    cursor: pointer;
+  }
+  [aria-disabled='true'] {
+    cursor: not-allowed;
+  }
+
   /* Tabular figures keep numeric columns aligned in tables. */
   .tabular {
     font-variant-numeric: tabular-nums;

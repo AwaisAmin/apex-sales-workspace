@@ -2,6 +2,7 @@ import { useEffect, useId, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { City, LeadStatus, type LeadQuery } from '@/api/schemas'
 import { Button } from '@/components/ui/Button'
+import { Select } from '@/components/ui/Select'
 import { cn } from '@/lib/cn'
 import { useDebouncedValue } from '@/lib/useDebouncedValue'
 
@@ -73,11 +74,11 @@ export function LeadFilters({ query, onChange }: LeadFiltersProps) {
         <label htmlFor={cityId} className="text-sm font-medium">
           {t('leads.filterCity')}
         </label>
-        <select
+        <Select
           id={cityId}
           value={query.city ?? ''}
           onChange={(e) => onChange({ city: (e.target.value || undefined) as LeadQuery['city'] })}
-          className="h-10 rounded-md border border-border bg-surface px-3"
+          className="md:min-w-44"
         >
           <option value="">{t('leads.anyCity')}</option>
           {City.options.map((c) => (
@@ -85,7 +86,7 @@ export function LeadFilters({ query, onChange }: LeadFiltersProps) {
               {t(`city.${c}`)}
             </option>
           ))}
-        </select>
+        </Select>
       </div>
 
       {hasFilters && (
