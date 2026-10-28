@@ -39,6 +39,7 @@ export const en = {
     INVALID_RESPONSE: 'The server sent an unexpected response.',
     ABORTED: 'The request was cancelled.',
     retriedNote: 'We retried automatically before showing this.',
+    staleData: 'Couldn’t load the latest results. Showing previous ones.',
   },
   pagination: {
     label: 'Pagination',
@@ -62,7 +63,7 @@ export const en = {
     anyCity: 'Any city',
     emptyTitle: 'No leads match these filters',
     emptyBody: 'Try removing a filter or searching for something else.',
-    count: '{{count}} leads',
+    count: '{{total}} leads',
     columns: {
       company: 'Company',
       contact: 'Contact',

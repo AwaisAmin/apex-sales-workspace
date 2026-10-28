@@ -41,6 +41,7 @@ export const ar: Messages = {
     INVALID_RESPONSE: 'أرسل الخادم استجابة غير متوقعة.',
     ABORTED: 'تم إلغاء الطلب.',
     retriedNote: 'أعدنا المحاولة تلقائيًا قبل عرض هذه الرسالة.',
+    staleData: 'تعذر تحميل أحدث النتائج. يتم عرض النتائج السابقة.',
   },
   pagination: {
     label: 'ترقيم الصفحات',
@@ -64,7 +65,8 @@ export const ar: Messages = {
     anyCity: 'أي مدينة',
     emptyTitle: 'لا يوجد عملاء مطابقون لعوامل التصفية',
     emptyBody: 'جرّب إزالة أحد عوامل التصفية أو البحث عن شيء آخر.',
-    count: '{{count}} عميل محتمل',
+    // "Results: N" reads correctly for any N, avoiding Arabic's six plural forms for a single label.
+    count: 'النتائج: {{total}}',
     columns: {
       company: 'الشركة',
       contact: 'جهة الاتصال',
