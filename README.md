@@ -35,21 +35,22 @@ The mock API starts automatically in both modes. Data lives in memory: **reloadi
 
 ## Scripts
 
-| Command                      | What it does                                                                         |
-| ---------------------------- | ------------------------------------------------------------------------------------ |
-| `npm run dev`                | Vite dev server with HMR and React Query devtools                                    |
-| `npm run build`              | Type-check all projects (`tsc -b`) and build to `dist/`                              |
-| `npm run preview`            | Serve the production build                                                           |
-| `npm run check`              | **Full quality gate:** typecheck + lint + format check + contrast audit + unit tests |
-| `npm test`                   | Unit and component tests (Vitest + Testing Library + MSW)                            |
-| `npm run test:coverage`      | Unit tests with coverage report (`coverage/index.html`)                              |
-| `npm run test:e2e`           | Playwright E2E against the production build (desktop + mobile)                       |
-| `npm run e2e:screenshots`    | Regenerate the deliverable screenshots into `docs/screenshots`                       |
-| `npm run audit:contrast`     | WCAG contrast check of every design-token colour pair, both themes                   |
-| `npm run audit:lighthouse`   | Lighthouse ×3 per page/preset, app-only and simulated (needs `npm run preview`)      |
-| `npm run audit:interactions` | Interaction latency at 1× and 4× CPU (needs `npm run preview`)                       |
-| `npm run lint`               | oxlint                                                                               |
-| `npm run format`             | Prettier (with Tailwind class sorting)                                               |
+| Command                      | What it does                                                                                                                               |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `npm run dev`                | Vite dev server with HMR and React Query devtools                                                                                          |
+| `npm run build`              | Type-check all projects (`tsc -b`) and build to `dist/`                                                                                    |
+| `npm run preview`            | Serve the production build                                                                                                                 |
+| `npm run check`              | **Full quality gate:** typecheck + lint + format check + contrast audit + unit tests                                                       |
+| `npm test`                   | Unit and component tests (Vitest + Testing Library + MSW)                                                                                  |
+| `npm run test:coverage`      | Unit tests with coverage report (`coverage/index.html`)                                                                                    |
+| `npm run test:e2e`           | Playwright E2E against the production build (desktop + mobile)                                                                             |
+| `npm run e2e:screenshots`    | Regenerate the deliverable screenshots into `docs/screenshots`                                                                             |
+| `npm run demo:video`         | Record the silent captioned demo to `docs/demo/apex-sales-demo.webm` (needs `npm run preview` running and `npx playwright install ffmpeg`) |
+| `npm run audit:contrast`     | WCAG contrast check of every design-token colour pair, both themes                                                                         |
+| `npm run audit:lighthouse`   | Lighthouse ×3 per page/preset, app-only and simulated (needs `npm run preview`)                                                            |
+| `npm run audit:interactions` | Interaction latency at 1× and 4× CPU (needs `npm run preview`)                                                                             |
+| `npm run lint`               | oxlint                                                                                                                                     |
+| `npm run format`             | Prettier (with Tailwind class sorting)                                                                                                     |
 
 ### E2E browser
 
@@ -64,6 +65,10 @@ PW_CHANNEL=chromium npm run test:e2e        # PowerShell: $env:PW_CHANNEL='chrom
 ---
 
 ## Reviewer demo (≈ 5 minutes)
+
+**Recorded walkthrough:** [`docs/demo/apex-sales-demo.webm`](docs/demo/apex-sales-demo.webm). It runs 1 min 26 s,
+silent, with captions, and shows the steps below. It is generated by `npm run demo:video`. Open it in Chrome, Edge or
+Firefox.
 
 1. **Bilingual + RTL** — press **العربية** in the header. The layout mirrors, digits become Arabic-Indic, currency is
    shown as ر.س, dates stay Gregorian. Theme: System / Light / Dark switcher next to it.
